@@ -1,0 +1,25 @@
+const divingCenterModel = require('../models/divingCenterModel');
+
+exports.getAllDivingCenters = async () => {
+  const divingCenters = await divingCenterModel.find({});
+  return divingCenters;
+};
+
+exports.getDivingCenterById = async (id) => {
+  const divingCenter = await divingCenterModel.findById(id);
+  return divingCenter;
+};
+
+exports.createDivingCenter = async (data) => {
+  const divingCenter = new divingCenterModel(data);
+  return divingCenter.save();
+};
+
+exports.updateDivingCenter = async (id, data) => {
+  const updatedDivingCenter = await divingCenterModel.findByIdAndUpdate(id, data, { new: true });
+  return updatedDivingCenter;
+};
+
+exports.deleteDivingCenter = async (id) => {
+  await divingCenterModel.findByIdAndDelete(id);
+};

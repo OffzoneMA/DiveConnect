@@ -1,0 +1,25 @@
+const divingAssociationModel = require('../models/divingAssociationModel');
+
+exports.getAllDivingAssociations = async () => {
+  const divingAssociations = await divingAssociationModel.find({});
+  return divingAssociations;
+};
+
+exports.getDivingAssociationById = async (id) => {
+  const divingAssociation = await divingAssociationModel.findById(id);
+  return divingAssociation;
+};
+
+exports.createDivingAssociation = async (data) => {
+  const divingAssociation = new divingAssociationModel(data);
+  return divingAssociation.save();
+};
+
+exports.updateDivingAssociation = async (id, data) => {
+  const updatedDivingAssociation = await divingAssociationModel.findByIdAndUpdate(id, data, { new: true });
+  return updatedDivingAssociation;
+};
+
+exports.deleteDivingAssociation = async (id) => {
+  await divingAssociationModel.findByIdAndDelete(id);
+};
