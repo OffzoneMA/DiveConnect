@@ -24,11 +24,11 @@ function App() {
         <Route exact path="/" component={Dashboard} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/diving-center" component={DivingCenter} />
+        <Route path="/diving-center" component={DivingCenterList} />
         <Route path="/diving-center/list" component={DivingCenterList} />
         <Route path="/diving-center/new" component={DivingCenterNew} />
         <Route path="/diving-center/:id" component={DivingCenterDetails} />
-        <Route path="/diving-association" component={DivingAssociation} />
+        <Route path="/diving-association" component={DivingAssociationList} />
         <Route path="/diving-association/list" component={DivingAssociationList} />
         <Route path="/diving-association/new" component={DivingAssociationNew} />
         <Route path="/diving-association/:id" component={DivingAssociationDetails} />
