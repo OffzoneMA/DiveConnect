@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/styles';
+import { makeStyles } from '@mui/styles'; // Import makeStyles once
 import CustomInput from '../../components/common/Input';
 import CustomButton from '../../components/common/Button';
+import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { useUsers } from '../../contexts/UserContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
       width: '50%',
     },
   },

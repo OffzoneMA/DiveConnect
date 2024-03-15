@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
 import CustomInput from '../components/common/Input';
 import CustomButton from '../components/common/Button';
+import { Button } from '@mui/material';
 import { useHistory } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
       width: '50%',
     },
   },

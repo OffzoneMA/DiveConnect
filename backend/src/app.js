@@ -23,16 +23,15 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/users', userRoutes);
 
 // Connect to database
-mongoose.connect(process.env.MONGODB_URI, {
+/*mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', () => {
   console.log('Connected to database');
-});
+});*/
 
 // Start server
 const port = process.env.PORT || 5000;

@@ -9,12 +9,14 @@ services:
       - /usr/src/app/node_modules
     ports:
       - '3001:3001'
+    env_file:
+      - ./backend/.env
     environment:
       NODE_ENV: development
-      MONGO_URI: mongodb://mongo:27017/diveconnect
-      JWT_SECRET: your_jwt_secret
-      EMAIL_USER: your_email_user
-      EMAIL_PASS: your_email_pass
+      MONGODB_URI: ${MONGODB_URI}
+      JWT_SECRET: ${JWT_SECRET}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
     depends_on:
       - mongo
   frontend:
@@ -37,5 +39,9 @@ services:
       - mongo-data:/data/db
     ports:
       - '27017:27017'
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGODB_URI: ${MONGODB_URI}
 volumes:
   mongo-data:

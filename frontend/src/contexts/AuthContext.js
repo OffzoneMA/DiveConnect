@@ -1,47 +1,34 @@
-import React, { createContext, useReducer, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
-const initialState = {
-  isAuthenticated: false,
-  user: null,
-};
-
-const authReducer = (state, action) => {
-  switch (action.type) {
-    case 'LOGIN':
-      return {
-        ...state,
-        isAuthenticated: true,
-        user: action.payload,
-      };
-    case 'LOGOUT':
-      return {
-        ...state,
-        isAuthenticated: false,
-        user: null,
-      };
-    default:
-      return state;
-  }
-};
-
+// Create the context
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext); // Export useAuth hook
+// Custom hook to use the auth context
+export const useAuth = () => useContext(AuthContext);
 
+// Auth provider component
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, initialState);
+  const [user, setUser] = useState(null); // Example: State to hold user information
 
-  const login = (user) => {
-    dispatch({ type: 'LOGIN', payload: user });
+  // Example login function
+  const login = async (email, password) => {
+    // Perform login operation, set user state, etc.
+    // Example:
+    setUser({ email }); // Just an example, replace with actual login logic
   };
 
-  const logout = () => {
-    dispatch({ type: 'LOGOUT' });
+  // Example logout function
+  const logout = async () => {
+    // Perform logout operation, clear user state, etc.
+    setUser(null); // Just an example, replace with actual logout logic
   };
 
-  return (
-    <AuthContext.Provider value={{ state, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  // Value to be provided by the context
+  const value = {
+    user,
+    login,
+    logout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

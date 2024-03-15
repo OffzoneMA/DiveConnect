@@ -1,21 +1,18 @@
-const express = require("express");
-const router = express.Router();
 const divingCenterService = require("../services/divingCenter");
+const bookingService = require("../../booking/services/booking");
 
-// Get all diving centers
-router.get("/", async (req, res) => {
+exports.getDivingCenters = async (req, res) => {
   try {
-    const divingCenters = await divingCenterService.getAllDivingCenters();
+    const divingCenters = await divingCenterService.getDivingCenters();
     res.status(200).json(divingCenters);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Get a single diving center by ID
-router.get("/:id", async (req, res) => {
+exports.getDivingCenter = async (req, res) => {
   try {
-    const divingCenter = await divingCenterService.getDivingCenterById(req.params.id);
+    const divingCenter = await divingCenterService.getDivingCenter(req.params.id);
     if (!divingCenter) {
       return res.status(404).json({ error: "Diving center not found" });
     }
@@ -23,20 +20,18 @@ router.get("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Create a new diving center
-router.post("/", async (req, res) => {
+exports.createDivingCenter = async (req, res) => {
   try {
     const newDivingCenter = await divingCenterService.createDivingCenter(req.body);
     res.status(201).json(newDivingCenter);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Update a diving center by ID
-router.put("/:id", async (req, res) => {
+exports.updateDivingCenter = async (req, res) => {
   try {
     const updatedDivingCenter = await divingCenterService.updateDivingCenter(
       req.params.id,
@@ -49,10 +44,9 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Delete a diving center by ID
-router.delete("/:id", async (req, res) => {
+exports.deleteDivingCenter = async (req, res) => {
   try {
     const deletedDivingCenter = await divingCenterService.deleteDivingCenter(
       req.params.id
@@ -64,6 +58,71 @@ router.delete("/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-module.exports = router;
+exports.getDivingCenterBookings = async (req, res) => {
+  try {
+    const bookings = await bookingService.getDivingCenterBookings(req.params.id);
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.createDivingCenterBooking = async (req, res) => {
+  try {
+    const newBooking = await bookingService.createDivingCenterBooking(
+      req.params.id,
+      req.body
+    );
+    res.status(201).json(newBooking);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getDivingCenterBooking = async (req, res) => {
+  try {
+    const booking = await bookingService.getDivingCenterBooking(
+      req.params.id,
+      req.params.bookingId
+    );
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+    res.status(200).json(booking);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.updateDivingCenterBooking = async (req, res) => {
+  try {
+    const updatedBooking = await bookingService.updateDivingCenterBooking(
+      req.params.id,
+      req.params.bookingId,
+      req.body
+    );
+    if (!updatedBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+    res.status(200).json(updatedBooking);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.deleteDivingCenterBooking = async (req, res) => {
+  try {
+    const deletedBooking = await bookingService.deleteDivingCenterBooking(
+      req.params.id,
+      req.params.bookingId
+    );
+    if (!deletedBooking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+    res.status(200).json({ message: "Booking deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
