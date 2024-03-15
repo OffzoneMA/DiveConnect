@@ -1,25 +1,19 @@
-FROM node:14-alpine3.17
+# Use the official Node.js image as the base
+FROM node:18-alpine
 
-# Create App Directory
-RUN mkdir -p /app
+# Set the working directory in the container
 WORKDIR /app
 
-# Install Dependencies
-COPY package.json .
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Copy app source code
-COPY . .
-
-#RUN npm install
+# Install dependencies
 RUN npm install
 
-# Build the React app
-RUN npm run build
-
-
-# Exports
-
+# Copy the project files
+COPY . .
+#Expose port
 EXPOSE 3000
 
-# Set up a default command
-CMD [ "npm", "start" ]
+# Start the React app
+CMD ["npm", "start"]
