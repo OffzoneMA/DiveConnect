@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const divingCenterRoutes = require('./diving-center-management/routes');
-const divingAssociationRoutes = require('./diving-association-management/routes');
-const userRoutes = require('./user-management/routes');
+const divingCenterRoutes = require('./routes/diving-center');
+const divingAssociationRoutes = require('./routes/diving-association');
+const userRoutes = require('./routes/user');
 
 app.use(express.json());
 app.use('/api/diving-center', divingCenterRoutes);
