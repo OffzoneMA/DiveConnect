@@ -1,0 +1,20 @@
+/* DivingSearchBar.css */
+.searchBar {
+    position: relative;
+    width: 70%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .formRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .toggleContainer {
+    text-align: center;
+  }
+  

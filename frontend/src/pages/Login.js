@@ -1,53 +1,109 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
-import CustomInput from '../components/common/Input';
-import CustomButton from '../components/common/Button';
-import { Button } from '@mui/material';
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { Typography, TextField, Button, Link } from '@mui/material';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(4),
+    maxWidth: 400,
+    margin: 'auto',
+    marginTop: theme.spacing(8),
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(2),
     '& > *': {
-      width: '50%',
+      marginBottom: theme.spacing(2),
     },
+  },
+  socialButton: {
+    marginTop: theme.spacing(2),
+    width: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));
 
-const Login = ({ setShowLogin }) => {
+const Login = () => {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
-  const { login } = useAuth();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      await login(email, password);
-      history.push('/dashboard');
-    } catch (err) {
-      console.error(err);
-    }
+    // Handle login submission
+  };
+
+  const handleFacebookLogin = () => {
+    // Handle Facebook login
+  };
+
+  const handleGoogleLogin = () => {
+    // Handle Google login
   };
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit}>
-      <CustomInput label="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <CustomInput label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <CustomButton type="submit" color="primary" variant="contained">
+    <div className={classes.root}>
+      <Typography variant="h4" gutterBottom>
         Login
-      </CustomButton>
-      <Button onClick={() => setShowLogin(false)}>
-        Create an account
-      </Button>
-    </form>
+      </Typography>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <TextField
+          variant="outlined"
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          required
+        />
+        <TextField
+          variant="outlined"
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          required
+        />
+        <Button variant="contained" color="primary" type="submit" fullWidth>
+          Login
+        </Button>
+      </form>
+      <div className={classes.socialButton}>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<FacebookIcon />}
+          onClick={handleFacebookLogin}
+        >
+          Login with Facebook
+        </Button>
+      </div>
+      <div className={classes.socialButton}>
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<GoogleIcon />}
+          onClick={handleGoogleLogin}
+        >
+          Login with Google
+        </Button>
+      </div>
+      <Typography variant="body2" align="center" gutterBottom>
+        Don't have an account? <Link href="/register">Register here</Link>
+      </Typography>
+    </div>
   );
-};
-
-Login.propTypes = {
-  setShowLogin: PropTypes.func.isRequired,
 };
 
 export default Login;

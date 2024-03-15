@@ -1,18 +1,25 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
-import CustomInput from '../components/common/Input';
-import CustomButton from '../components/common/Button';
-import { Button } from '@mui/material';
-
-import { useHistory } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { Typography, TextField, Button, Link } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: theme.spacing(4),
+    maxWidth: 400,
+    margin: 'auto',
+    marginTop: theme.spacing(8),
+    border: `1px solid ${theme.palette.divider}`,
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.background.paper,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(2),
     '& > *': {
-      margin: theme.spacing(1),
-      width: '50%',
+      marginBottom: theme.spacing(2),
     },
   },
 }));
@@ -22,36 +29,53 @@ const Register = ({ setShowRegister }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const history = useHistory();
-  const { register } = useAuth();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      await register(name, email, password);
-      history.push('/login');
-    } catch (err) {
-      console.error(err);
-    }
+    // Handle registration submission
   };
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit}>
-      <CustomInput label="Name" name="name" value={name} onChange={(e) => setName(e.target.value)} />
-      <CustomInput label="Email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <CustomInput label="Password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <CustomButton type="submit" color="primary" variant="contained">
+    <div className={classes.root}>
+      <Typography variant="h4" gutterBottom>
         Register
-      </CustomButton>
-      <Button onClick={() => setShowRegister(false)}>
-        Login
-      </Button>
-    </form>
+      </Typography>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <TextField
+          variant="outlined"
+          label="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          fullWidth
+          required
+        />
+        <TextField
+          variant="outlined"
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
+          required
+        />
+        <TextField
+          variant="outlined"
+          label="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          required
+        />
+        <Button variant="contained" color="primary" type="submit" fullWidth>
+          Register
+        </Button>
+      </form>
+      <Typography variant="body2" align="center" gutterBottom>
+        Already have an account? <Link href="/login">Login here</Link>
+      </Typography>
+    </div>
   );
-};
-
-Register.propTypes = {
-  setShowRegister: PropTypes.func.isRequired,
 };
 
 export default Register;

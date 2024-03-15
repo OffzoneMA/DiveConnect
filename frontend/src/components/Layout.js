@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Paper, Grid, Typography } from '@mui/material';
+import { Paper, Grid, Typography, CircularProgress } from '@mui/material';
 import CustomLayout from '../components/common/Layout';
 import theme from '../style/theme';
 import DivingTypeAutocomplete from '../components/DivingTypeAutocomplete';
@@ -14,6 +14,12 @@ const useStyles = makeStyles(() => ({
   paper: {
     padding: theme.spacing(2),
     marginBottom: theme.spacing(2),
+  },
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '200px',
   },
 }));
 
@@ -30,6 +36,7 @@ const Dashboard = () => {
         setLoading(false);
       } catch (error) {
         console.error('Error fetching diving trips:', error);
+        setLoading(false); // Handle error by setting loading to false
       }
     };
 
@@ -43,7 +50,11 @@ const Dashboard = () => {
 
   const renderDivingTrips = () => {
     if (loading) {
-      return <Typography>Loading...</Typography>;
+      return (
+        <div className={classes.loading}>
+          <CircularProgress />
+        </div>
+      );
     }
 
     if (divingTrips.length === 0) {
@@ -55,7 +66,9 @@ const Dashboard = () => {
 
   return (
     <CustomLayout>
-      <h1>Dashboard</h1>
+      <Typography variant="h1" gutterBottom>
+        Dashboard
+      </Typography>
       <Paper className={classes.paper}>
         <DivingTypeAutocomplete onChange={handleFilterChange} />
       </Paper>
