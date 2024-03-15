@@ -1,8 +1,8 @@
 FROM node:14-alpine3.17
 
 # Create App Directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /app
+WORKDIR /app
 
 # Install Dependencies
 COPY package.json .
@@ -14,7 +14,7 @@ COPY . .
 RUN npm install
 
 # Build the React app
-#RUN npm run build
+RUN npm run build
 
 
 # Exports
