@@ -29,10 +29,29 @@ const Register = ({ setShowRegister }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle registration submission
+    
+    try {
+      const response = await fetch('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ firstName: name, email, password, role: 'diver' }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+
+      // Registration successful, redirect or show success message
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -67,6 +86,11 @@ const Register = ({ setShowRegister }) => {
           fullWidth
           required
         />
+        {error && (
+          <Typography variant="body2" color="error" align="center" gutterBottom>
+            {error}
+          </Typography>
+        )}
         <Button variant="contained" color="primary" type="submit" fullWidth>
           Register
         </Button>

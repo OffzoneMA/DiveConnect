@@ -1,17 +1,17 @@
-const User = require('../models/User');
+const userService = require('../services/userService');
 
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await userService.getUsers();
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await userService.getUserById(req.params.id);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -23,17 +23,16 @@ exports.getUser = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const user = new User(req.body);
-    await user.save();
+    const user = await userService.registerUser(req.body);
     res.status(201).json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateUserById = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const user = await userService.updateUserById(req.params.id, req.body);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
@@ -43,14 +42,24 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
+exports.deleteUserById = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
+    const user = await userService.deleteUserById(req.params.id);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
     res.status(200).json({ message: 'User deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+exports.loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const token = await userService.loginUser(email, password);
+    res.status(200).json({ token });
+  } catch (err) {
+    res.status(401).json({ error: err.message });
   }
 };
