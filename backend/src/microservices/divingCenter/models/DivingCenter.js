@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const divingCenterSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
   address: { type: String, required: true },
-  // add more fields as needed
+  city: { type: String, required: true },
 });
 
-module.exports = mongoose.model('DivingCenter', divingCenterSchema);
+module.exports = mongoose.model("DivingCenter", divingCenterSchema);

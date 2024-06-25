@@ -3,8 +3,10 @@ const bookingService = require("../../booking/services/booking");
 
 exports.getDivingCenters = async (req, res) => {
   try {
-    const divingCenters = await divingCenterService.getDivingCenters();
-    res.status(200).json(divingCenters);
+    const divingCenters = await divingCenterService.getAllDivingCenters(
+      req,
+      res
+    );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -12,7 +14,9 @@ exports.getDivingCenters = async (req, res) => {
 
 exports.getDivingCenter = async (req, res) => {
   try {
-    const divingCenter = await divingCenterService.getDivingCenter(req.params.id);
+    const divingCenter = await divingCenterService.getDivingCenterById(
+      req.params.id
+    );
     if (!divingCenter) {
       return res.status(404).json({ error: "Diving center not found" });
     }
@@ -24,7 +28,9 @@ exports.getDivingCenter = async (req, res) => {
 
 exports.createDivingCenter = async (req, res) => {
   try {
-    const newDivingCenter = await divingCenterService.createDivingCenter(req.body);
+    const newDivingCenter = await divingCenterService.createDivingCenter(
+      req.body
+    );
     res.status(201).json(newDivingCenter);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -62,7 +68,9 @@ exports.deleteDivingCenter = async (req, res) => {
 
 exports.getDivingCenterBookings = async (req, res) => {
   try {
-    const bookings = await bookingService.getDivingCenterBookings(req.params.id);
+    const bookings = await bookingService.getDivingCenterBookings(
+      req.params.id
+    );
     res.status(200).json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
