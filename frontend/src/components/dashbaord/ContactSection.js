@@ -1,12 +1,14 @@
-import React from 'react';
-import { makeStyles } from '@mui/styles';
-import { Typography, Paper } from '@mui/material';
-import Button from '../common/Button';
+import React from "react";
+import { makeStyles } from "@mui/styles";
+import { Typography, Paper } from "@mui/material";
+import Button from "../common/Button";
 
 const useStyles = makeStyles(() => ({
   paper: {
-    padding: '20px',
-    marginTop: '20px',
+    padding: "20px",
+    margin: "0 auto",
+    width: "80%",
+    textAlign: "center",
   },
 }));
 

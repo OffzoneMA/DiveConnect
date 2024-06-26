@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllDivingCenters } from "../features/divingCenters/divingCentersSlice.js";
 
 const Dashboard = () => {
-  const { isLoading } = useSelector((store) => store.userState);
+  console.log(useSelector((store) => store.divingCentersState));
+  const { isLoading } = useSelector((store) => store.divingCentersState);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllDivingCenters());

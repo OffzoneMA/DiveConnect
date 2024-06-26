@@ -4,12 +4,17 @@ import {
   Paper,
   TextField,
   Button,
-  FormControlLabel,
-  Switch,
+  // FormControlLabel,
+  // Switch,
+  // Pagination,
+  // Stack,
+  // Autocomplete,
 } from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
-import { getAllDivingCenters } from "../../features/divingCenters/divingCentersSlice.js";
-
+import {
+  handleChange,
+  getAllDivingCenters,
+} from "../../features/divingCenters/divingCentersSlice.js";
+import { useDispatch } from "react-redux";
 const diveOptions = [
   "Guided dive to 20 meters",
   "Guided dive to 40 meters",
@@ -44,7 +49,6 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: "20px",
   },
   spacer: {
     margin: "0 10px", // Adjust spacer width as needed
@@ -68,11 +72,11 @@ const DivingSearchBar = () => {
   };
 
   const handleToggleAdvancedMode = () => {
-    setAdvancedMode(!advancedMode);
+    // setAdvancedMode(!advancedMode);
   };
 
-  const handleEquipmentCountChange = (equipment, count) => {
-    setEquipmentCounts({ ...equipmentCounts, [equipment]: count });
+  const handleEquipmentCountChange = () => {
+    // setEquipmentCounts({ ...equipmentCounts, [equipment]: count });
   };
 
   return (
@@ -82,19 +86,14 @@ const DivingSearchBar = () => {
           label="Location"
           variant="outlined"
           fullWidth
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          // value={location}
+          onChange={(e) =>
+            dispatch(handleChange({ name: "search", value: e.target.value }))
+          }
         />
         <div className={classes.spacer} />
-        <Autocomplete
-          className={classes.diveTypesInput} // Apply custom styles here
-          multiple
-          options={diveOptions}
-          getOptionLabel={(option) => option}
-          renderInput={(params) => <TextField {...params} label="Dive Types" />}
-          onChange={(event, value) => console.log(value)} // handle dive type selection
-        />
-        <div className={classes.spacer} />
+
+        {/* <div className={classes.spacer} />
         <TextField
           label="Date"
           variant="outlined"
@@ -105,28 +104,29 @@ const DivingSearchBar = () => {
           InputLabelProps={{
             shrink: true,
           }}
-        />
-        <div className={classes.spacer} />
+        /> */}
+        {/* <div className={classes.spacer} /> */}
         <Button variant="contained" color="primary" onClick={handleSearch}>
           Search
         </Button>
       </div>
-      <div className={classes.toggleContainer}>
+      {/* <div className={classes.toggleContainer}>
         <FormControlLabel
           control={
             <Switch
-              checked={advancedMode}
+              // checked={advancedMode}
               onChange={handleToggleAdvancedMode}
             />
           }
           label="Advanced Mode"
         />
-      </div>
-      {advancedMode && (
+      </div> */}
+      {false && (
+        // {advancedMode && (
         <>
           {/* Equipment fields */}
           <div className={classes.formRow}>
-            <TextField
+            {/* <TextField
               label="Number of Tanks"
               variant="outlined"
               fullWidth
@@ -177,7 +177,7 @@ const DivingSearchBar = () => {
               onChange={(e) =>
                 handleEquipmentCountChange("finsMasks", e.target.value)
               }
-            />
+            /> */}
           </div>
         </>
       )}
