@@ -1,5 +1,6 @@
 const divingCenterService = require("../services/divingCenter");
 const bookingService = require("../../booking/services/booking");
+const { sendEmailTest } = require("./email");
 
 exports.getDivingCenters = async (req, res) => {
   try {
@@ -130,6 +131,14 @@ exports.deleteDivingCenterBooking = async (req, res) => {
       return res.status(404).json({ error: "Booking not found" });
     }
     res.status(200).json({ message: "Booking deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.createDeviseForm = async (req, res) => {
+  try {
+    console.log(req.body);
+    sendEmailTest(req, res);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

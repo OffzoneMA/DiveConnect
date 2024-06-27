@@ -7,13 +7,19 @@ import {
   Grid,
   FormControlLabel,
   Switch,
-  Pagination,
   Stack,
   Autocomplete,
 } from "@mui/material";
-import DivingTripCard from "./DivingTripCard"; // Import the DivingTripCard component
+import Pagination from "@mui/material/Pagination";
+import DivingTripCard from "./DivingTripCard";
 import { useSelector } from "react-redux";
-
+import { useDispatch } from "react-redux";
+import {
+  getAllDivingCenters,
+  handleChange,
+} from "../../features/divingCenters/divingCentersSlice";
+import { useHistory, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 const useStyles = makeStyles(() => ({
   paper: {
     padding: "20px",
@@ -35,14 +41,20 @@ const useStyles = makeStyles(() => ({
 
 const PromotionsSection = () => {
   const classes = useStyles();
-  const { divingCenters, isLoading } = useSelector(
+  const { divingCenters, isLoading, page, numOfPages } = useSelector(
     (store) => store.divingCentersState
   );
-  const { numOfPages } = useSelector((store) => store.divingCentersState);
-  const [page, setPage] = React.useState(1);
-  const handleChange = (e, value) => {
-    setPage(value);
-    // Todo: Fetch data from the server
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { search, pathname } = useLocation();
+
+  const handleChangePagination = (e, value) => {
+    console.log(value);
+    const searchParams = new URLSearchParams(search);
+    searchParams.set("page", value);
+    history.push(`${pathname}?${searchParams.toString()}`);
+    dispatch(handleChange({ name: "page", value }));
+    dispatch(getAllDivingCenters());
   };
   return (
     <Paper className={classes.paper}>
@@ -62,7 +74,8 @@ const PromotionsSection = () => {
           <Pagination
             count={numOfPages}
             color="primary"
-            onChange={handleChange}
+            page={page}
+            onChange={handleChangePagination}
           />
         </Stack>
       </div>

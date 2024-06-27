@@ -12,39 +12,68 @@ import {
   Switch,
 } from "@mui/material";
 import { func } from "prop-types";
+import { customFetch } from "../utils";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 const equipmentOptions = ["Détendeur", "Stab", "Masque/Tuba", "Palmes"];
 
 const useStyles = makeStyles((theme) => ({}));
-
 function DeviseForm() {
+  const history = useHistory();
+
+  const { selectedCenter } = useSelector((store) => store.divingCentersState);
+  useEffect(() => {
+    if (!selectedCenter) {
+      history.push("/");
+    }
+  }, []);
+  const [materials, setMaterials] = useState([]);
   const classes = useStyles();
-  function sendMail() {
-    //   Todo: Implement the sendMail function
+  async function sendMail(e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const divesNum = document.getElementById("divesNum").value;
+    const diversLevel = document.querySelector(
+      'input[name="divers"]:checked'
+    ).value;
+    const total = document.getElementById("total").value;
+    const formData = {
+      name,
+      email,
+      phone,
+      divesNum,
+      diversLevel,
+      total,
+      center: selectedCenter,
+    };
+    const res = await customFetch.post("/diving-centers/deviseForm", formData);
   }
   return (
     <Wrapper>
-      <div class="formbold-main-wrapper">
-        <div class="formbold-form-wrapper">
-          <form>
-            <div class="formbold-input">
+      <div className="formbold-main-wrapper">
+        <div className="formbold-form-wrapper">
+          <form method="post">
+            <div className="formbold-input">
               <div>
-                <label for="firstname" class="formbold-form-label">
+                <label htmlFor="name" className="formbold-form-label">
                   {" "}
                   Nom{" "}
                 </label>
                 <input
                   type="text"
-                  name="firstname"
-                  id="firstname"
+                  name="name"
+                  id="name"
                   placeholder="Jane"
-                  class="formbold-form-input"
+                  className="formbold-form-input"
                 />
               </div>
             </div>
 
-            <div class="formbold-input-flex">
+            <div className="formbold-input-flex">
               <div>
-                <label for="email" class="formbold-form-label">
+                <label htmlFor="email" className="formbold-form-label">
                   {" "}
                   Email{" "}
                 </label>
@@ -53,11 +82,11 @@ function DeviseForm() {
                   name="email"
                   id="email"
                   placeholder="jhon@mail.com"
-                  class="formbold-form-input"
+                  className="formbold-form-input"
                 />
               </div>
               <div>
-                <label for="phone" class="formbold-form-label">
+                <label htmlFor="phone" className="formbold-form-label">
                   {" "}
                   Téléphone{" "}
                 </label>
@@ -66,13 +95,13 @@ function DeviseForm() {
                   name="phone"
                   id="phone"
                   placeholder="(+319) 555-0115"
-                  class="formbold-form-input"
+                  className="formbold-form-input"
                 />
               </div>
             </div>
-            <div class="formbold-input">
+            <div className="formbold-input">
               <div>
-                <label for="divesNum" class="formbold-form-label">
+                <label htmlFor="divesNum" className="formbold-form-label">
                   {" "}
                   Nombre de plongée par personne{" "}
                 </label>
@@ -81,58 +110,60 @@ function DeviseForm() {
                   name="divesNum"
                   id="divesNum"
                   placeholder="3"
-                  class="formbold-form-input"
+                  defaultValue={3}
+                  className="formbold-form-input"
                 />
               </div>
             </div>
-            <div class="formbold-input-radio-wrapper">
-              <label for="Divers" class="formbold-form-label">
+            <div className="formbold-input-radio-wrapper">
+              <label htmlFor="Divers" className="formbold-form-label">
                 {" "}
                 Les plongeurs{" "}
               </label>
 
-              <div class="formbold-radio-flex">
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
+              <div className="formbold-radio-flex">
+                <div className="formbold-radio-group">
+                  <label className="formbold-radio-label">
                     <input
-                      class="formbold-input-radio"
+                      className="formbold-input-radio"
                       type="radio"
+                      value={1}
                       name="divers"
-                      id="Divers"
+                      defaultChecked
                     />
-                    Niveau 1<span class="formbold-radio-checkmark"></span>
+                    Niveau 1<span className="formbold-radio-checkmark"></span>
                   </label>
                 </div>
 
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
+                <div className="formbold-radio-group">
+                  <label className="formbold-radio-label">
                     <input
-                      class="formbold-input-radio"
+                      className="formbold-input-radio"
                       type="radio"
                       name="divers"
-                      id="Divers"
+                      value={2}
                     />
-                    Niveau 2<span class="formbold-radio-checkmark"></span>
+                    Niveau 2<span className="formbold-radio-checkmark"></span>
                   </label>
                 </div>
 
-                <div class="formbold-radio-group">
-                  <label class="formbold-radio-label">
+                <div className="formbold-radio-group">
+                  <label className="formbold-radio-label">
                     <input
-                      class="formbold-input-radio"
+                      className="formbold-input-radio"
                       type="radio"
                       name="divers"
-                      id="Divers"
+                      value={3}
                     />
-                    Niveau 3<span class="formbold-radio-checkmark"></span>
+                    Niveau 3<span className="formbold-radio-checkmark"></span>
                   </label>
                 </div>
               </div>
             </div>
 
-            <div class="formbold-input">
+            <div className="formbold-input">
               <div>
-                <label for="total" class="formbold-form-label">
+                <label htmlFor="total" className="formbold-form-label">
                   {" "}
                   Total{" "}
                 </label>
@@ -141,21 +172,22 @@ function DeviseForm() {
                   name="total"
                   id="total"
                   placeholder="10"
-                  class="formbold-form-input"
+                  defaultValue={10}
+                  className="formbold-form-input"
                 />
               </div>
             </div>
-            <div class="formbold-input">
+            <div className="formbold-input">
               <div>
                 <Autocomplete
-                  className={classes.diveTypesInput} // Apply custom styles here
+                  className={classes.diveTypesInput}
                   multiple
                   options={equipmentOptions}
                   getOptionLabel={(option) => option}
                   renderInput={(params) => (
                     <TextField {...params} label="Location matériel" />
                   )}
-                  onChange={(event, value) => console.log(value)} // handle dive type selection
+                  onChange={(event, value) => setMaterials(value)}
                 />
               </div>
             </div>
@@ -173,8 +205,11 @@ function DeviseForm() {
                 class="formbold-form-input"
               ></textarea>
             </div> */}
-
-            <button class="formbold-btn" onClick={sendMail}>
+            <button
+              type="submit"
+              className="formbold-btn"
+              onClick={(e) => sendMail(e)}
+            >
               Envoyer la demande
             </button>
           </form>

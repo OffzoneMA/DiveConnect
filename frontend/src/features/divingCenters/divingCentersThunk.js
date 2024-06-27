@@ -2,10 +2,19 @@ import { customFetch } from "../../utils/index";
 // import { clearFilters } from "./divingCentersSlice";
 export const getAllDivingCentersThunk = async (_, thunkAPI) => {
   let url = "/diving-centers";
-  const { search } = thunkAPI.getState().divingCentersState;
-  console.log("url", search);
+  const urlParams = new URLSearchParams(window.location.search);
+  const search = urlParams.get("city");
   if (search) {
     url += `?city=${search}`;
+  } else {
+    url += "?city=";
+  }
+  // getting page from the url
+  const page = urlParams.get("page");
+  if (page) {
+    url += `&page=${page}`;
+  } else {
+    url += "&page=1";
   }
   try {
     const { data } = await customFetch.get(url);

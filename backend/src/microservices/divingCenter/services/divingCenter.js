@@ -15,10 +15,10 @@ class DivingCenterService {
       result = result.sort("createdAt");
     }
     if (sort === "a-z") {
-      result = result.sort("position");
+      result = result.sort("name");
     }
     if (sort === "z-a") {
-      result = result.sort("-position");
+      result = result.sort("-name");
     }
 
     const page = Number(req.query.page) || 1;
@@ -57,7 +57,8 @@ class DivingCenterService {
   }
 
   async deleteDivingCenter(id) {
-    const deletedDivingCenter = await divingCenterModel.findByIdAndDelete(id);
+    // const deletedDivingCenter = await divingCenterModel.findByIdAndDelete(id);
+    const deletedDivingCenter = await divingCenterModel.deleteMany();
     return deletedDivingCenter;
   }
 }

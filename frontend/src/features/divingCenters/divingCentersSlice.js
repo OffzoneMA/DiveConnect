@@ -53,7 +53,7 @@ const divingCentersSlice = createSlice({
       state.divingCenters = payload.divingCenters;
       state.numOfPages = payload.numOfPages;
       state.totalDivingCenters = payload.totalDivingCenters;
-      state.page = 1;
+      state.page = payload.page;
     },
     [getAllDivingCenters.rejected]: (state, { payload }) => {
       state.isLoading = false;
