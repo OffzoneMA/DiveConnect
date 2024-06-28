@@ -15,6 +15,7 @@ import { func } from "prop-types";
 import { customFetch } from "../utils";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import DivingTripCard from "../components/dashbaord/DivingTripCard";
 const equipmentOptions = ["Détendeur", "Stab", "Masque/Tuba", "Palmes"];
 
 const useStyles = makeStyles((theme) => ({}));
@@ -214,6 +215,11 @@ function DeviseForm() {
             </button>
           </form>
         </div>
+        <div className="tripInfo">
+          <img src={selectedCenter.image} alt="" />
+          <h2>{selectedCenter?.name}</h2>
+          <p>{selectedCenter?.address}</p>
+        </div>
       </div>
     </Wrapper>
   );
@@ -262,17 +268,42 @@ const Wrapper = styled.section`
   }
   .formbold-main-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
+    /* align-items: center;
+    justify-content: center; */
+    /* padding: 1rem; */
+    width: 80%;
+    margin: 1rem auto;
+    border-radius: 5rem;
+
+    /* margin: 0 auto; */
   }
 
   .formbold-form-wrapper {
-    margin: 0 auto;
-    max-width: 550px;
-    width: 100%;
+    border-radius: 5rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    /* max-width: 550px; */
+    /* width: 100%; */
     background: white;
     padding: 2rem 3rem;
+    width: 50%;
+    border-right: 1px solid #dde3ec;
+  }
+  .tripInfo {
+    border-radius: 5rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    width: 50%;
+    /* height: 100%; */
+    align-self: stretch;
+    background: white;
+    text-align: center;
+    img {
+      width: 100%;
+      border-top-right-radius: 5rem;
+      height: 70%;
+      object-fit: cover;
+    }
   }
   .formbold-input {
     margin-bottom: 15px;
