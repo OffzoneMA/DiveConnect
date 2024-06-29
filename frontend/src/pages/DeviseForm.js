@@ -52,7 +52,7 @@ function DeviseForm() {
     };
     let url = api + "/diving-centers/deviseForm";
 
-    const res = await axios.post(url, formData);
+    const res = await customFetch.post(url, formData);
     // if (res.ok) {
     //   alert("Votre demande a été envoyée avec succès");
     // } else {

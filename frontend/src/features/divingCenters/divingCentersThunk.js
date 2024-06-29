@@ -19,7 +19,7 @@ export const getAllDivingCentersThunk = async (_, thunkAPI) => {
     url += "&page=1";
   }
   try {
-    const { data } = await axios.get(url);
+    const { data } = await customFetch.get(url);
     // thunkAPI.dispatch(clearFilters());
     return data;
   } catch (error) {
