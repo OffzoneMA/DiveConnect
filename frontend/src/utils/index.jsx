@@ -2,7 +2,7 @@ import axios from "axios";
 // import { removeUserFromLocalStorage } from "./localStorage";
 import { API_URL } from "./constants";
 export const customFetch = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL + "/api",
 });
 
 // customFetch.interceptors.request.use((config) => {
