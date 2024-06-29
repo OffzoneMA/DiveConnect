@@ -50,12 +50,14 @@ function DeviseForm() {
       total,
       center: selectedCenter,
     };
-    const res = await axios.post("/api/diving-centers/deviseForm", formData);
-    if (res.ok) {
-      alert("Votre demande a été envoyée avec succès");
-    } else {
-      alert("Une erreur s'est produite, veuillez réessayer");
-    }
+    let url = api + "/diving-centers/deviseForm";
+
+    const res = await axios.post(url, formData);
+    // if (res.ok) {
+    //   alert("Votre demande a été envoyée avec succès");
+    // } else {
+    //   alert("Une erreur s'est produite, veuillez réessayer");
+    // }
   }
   return (
     <Wrapper>
