@@ -50,7 +50,7 @@ function DeviseForm() {
       total,
       center: selectedCenter,
     };
-    const res = await axios.post(api + "/diving-centers/deviseForm", formData);
+    const res = await axios.post("/api/diving-centers/deviseForm", formData);
     if (res.ok) {
       alert("Votre demande a été envoyée avec succès");
     } else {
