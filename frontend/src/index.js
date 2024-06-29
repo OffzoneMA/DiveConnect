@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { ThemeProvider, CssBaseline } from "@mui/material"; // Import CssBaseline for global styles
+
 import theme from "./style/theme";
 import { AuthProvider } from "./contexts/AuthContext";
 import { store } from "./store.js";

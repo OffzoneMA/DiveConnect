@@ -17,6 +17,7 @@ import UserNew from "./pages/User/UserNew";
 import UserDetails from "./pages/User/UserDetails";
 
 import DeviseForm from "./pages/DeviseForm";
+
 function App() {
   return (
     <Router>
