@@ -12,7 +12,7 @@ const initialState = {
   numOfPages: 1,
   totalDivingCenters: 0,
   divingCenters: [],
-  selectedCenter: {},
+  selectedCenter: null,
   ...initialFilters,
 };
 
