@@ -16,8 +16,6 @@ import { getAllDivingCenters } from "../features/divingCenters/divingCentersSlic
 const Dashboard = () => {
   const { isLoading } = useSelector((store) => store.divingCentersState);
   const dispatch = useDispatch();
-  console.log("c'est fait");
-
   useEffect(() => {
     dispatch(getAllDivingCenters());
   }, []);
