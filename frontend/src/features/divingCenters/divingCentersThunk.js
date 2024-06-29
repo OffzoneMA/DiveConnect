@@ -1,8 +1,7 @@
-import axios from "axios";
 import { customFetch } from "../../utils/index";
 // import { clearFilters } from "./divingCentersSlice";
 export const getAllDivingCentersThunk = async (_, thunkAPI) => {
-  let url = "/api/diving-centerss";
+  let url = "/api/diving-centers";
   const urlParams = new URLSearchParams(window.location.search);
   const search = urlParams.get("city");
   if (search) {

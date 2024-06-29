@@ -14,10 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllDivingCenters } from "../features/divingCenters/divingCentersSlice.js";
 
 const Dashboard = () => {
-  console.log(useSelector((store) => store.divingCentersState));
   const { isLoading } = useSelector((store) => store.divingCentersState);
   const dispatch = useDispatch();
   useEffect(() => {
+    console.log("c'est fait");
     dispatch(getAllDivingCenters());
   }, []);
 
