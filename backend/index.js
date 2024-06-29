@@ -15,7 +15,7 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 
-app.use(cors());
+// app.use(cors());
 
 // Use routes
 app.use("/api/diving-centers", divingCenterRoutes);
