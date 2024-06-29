@@ -2,6 +2,7 @@ import { customFetch } from "../../utils/index";
 // import { clearFilters } from "./divingCentersSlice";
 import axios from "axios";
 export const getAllDivingCentersThunk = async (_, thunkAPI) => {
+  console.log("inside thunk");
   let url = "/api/diving-centers";
   const urlParams = new URLSearchParams(window.location.search);
   const search = urlParams.get("city");
