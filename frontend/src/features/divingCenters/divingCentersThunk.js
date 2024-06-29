@@ -1,7 +1,7 @@
 import { customFetch } from "../../utils/index";
 // import { clearFilters } from "./divingCentersSlice";
 export const getAllDivingCentersThunk = async (_, thunkAPI) => {
-  let url = "/diving-centers";
+  let url = "/api/diving-centers";
   const urlParams = new URLSearchParams(window.location.search);
   const search = urlParams.get("city");
   if (search) {
