@@ -12,7 +12,7 @@ export const getAllDivingCentersThunk = async (_, thunkAPI) => {
     url += "?city=";
   }
   // getting page from the url
-  const page = urlParams.get("page");
+  const page = urlParams.customFetch("page");
   if (page) {
     url += `&page=${page}`;
   } else {
