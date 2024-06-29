@@ -1,8 +1,8 @@
 import axios from "axios";
 // import { removeUserFromLocalStorage } from "./localStorage";
-
+import { API_URL } from "./constants";
 export const customFetch = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: API_URL,
 });
 
 // customFetch.interceptors.request.use((config) => {
