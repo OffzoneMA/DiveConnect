@@ -16,6 +16,7 @@ import { api, customFetch } from "../utils";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import DivingTripCard from "../components/dashbaord/DivingTripCard";
+import axios from "axios";
 const equipmentOptions = ["Détendeur", "Stab", "Masque/Tuba", "Palmes"];
 
 const useStyles = makeStyles((theme) => ({}));
@@ -49,10 +50,7 @@ function DeviseForm() {
       total,
       center: selectedCenter,
     };
-    const res = await customFetch.post(
-      api + "/diving-centers/deviseForm",
-      formData
-    );
+    const res = await axios.post(api + "/diving-centers/deviseForm", formData);
     if (res.ok) {
       alert("Votre demande a été envoyée avec succès");
     } else {
