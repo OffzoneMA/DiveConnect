@@ -12,7 +12,7 @@ import {
   Switch,
 } from "@mui/material";
 import { func } from "prop-types";
-import { customFetch } from "../utils";
+import { api, customFetch } from "../utils";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import DivingTripCard from "../components/dashbaord/DivingTripCard";
@@ -49,7 +49,15 @@ function DeviseForm() {
       total,
       center: selectedCenter,
     };
-    const res = await customFetch.post("/diving-centers/deviseForm", formData);
+    const res = await customFetch.post(
+      api + "/diving-centers/deviseForm",
+      formData
+    );
+    if (res.ok) {
+      alert("Votre demande a été envoyée avec succès");
+    } else {
+      alert("Une erreur s'est produite, veuillez réessayer");
+    }
   }
   return (
     <Wrapper>
