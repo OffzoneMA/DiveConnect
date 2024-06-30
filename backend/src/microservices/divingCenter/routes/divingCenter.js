@@ -5,6 +5,8 @@ const divingCenterController = require("../controllers/divingCenter");
 router.get("/", divingCenterController.getDivingCenters);
 router.get("/:id", divingCenterController.getDivingCenter);
 router.post("/", divingCenterController.createDivingCenter);
+router.post("/deviseForm", divingCenterController.createDeviseForm);
+
 router.put("/:id", divingCenterController.updateDivingCenter);
 router.delete("/:id", divingCenterController.deleteDivingCenter);
 router.get("/:id/bookings", divingCenterController.getDivingCenterBookings);
@@ -21,7 +23,5 @@ router.delete(
   "/:id/bookings/:bookingId",
   divingCenterController.deleteDivingCenterBooking
 );
-
-router.post("/deviseForm", divingCenterController.createDeviseForm);
 
 module.exports = router;
