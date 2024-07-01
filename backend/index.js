@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Use routes
-app.use("/diving-centers", divingCenterRoutes);
-app.use("/diving-associations", divingAssociationRoutes);
-app.use("/bookings", bookingRoutes);
-app.use("/users", userRoutes);
+app.use("/api/diving-centers", divingCenterRoutes);
+app.use("/api/diving-associations", divingAssociationRoutes);
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/users", userRoutes);
 app.use("/", (req, res) => {
   const endpoints = listEndpoints(app);
   res.json(endpoints);

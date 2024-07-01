@@ -12,7 +12,8 @@ export const getAllDivingCentersThunk = async (_, thunkAPI) => {
     url += "?city=";
   }
   // getting page from the url
-  const page = urlParams.customFetch("page");
+  const page = urlParams.get("page");
+  console.log(url);
   if (page) {
     url += `&page=${page}`;
   } else {
@@ -20,6 +21,7 @@ export const getAllDivingCentersThunk = async (_, thunkAPI) => {
   }
   try {
     const { data } = await customFetch.get(url);
+    // const { data } = await axios.get(url);
     // thunkAPI.dispatch(clearFilters());
     return data;
   } catch (error) {

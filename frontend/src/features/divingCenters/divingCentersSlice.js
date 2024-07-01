@@ -13,6 +13,7 @@ const initialState = {
   totalDivingCenters: 0,
   divingCenters: [],
   selectedCenter: null,
+
   ...initialFilters,
 };
 

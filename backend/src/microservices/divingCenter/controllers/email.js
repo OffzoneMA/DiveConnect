@@ -67,17 +67,17 @@ exports.sendEmailTest = async (req, res) => {
   });
   let info = await transporter.sendMail({
     from: formData.email,
-    to: formData.center.name,
+    to: formData.center.email,
     subject: "Demande de réservation de plongée",
     html: `<h2>${emailContent}</h2>`,
   });
-
   res.json(info);
 };
 // production
 exports.sendEmailProduction = async (req, res) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const formData = req.body;
+  console.log(req.body);
   let emailContent = `
 <!DOCTYPE html>
 <html>
