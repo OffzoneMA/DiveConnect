@@ -1,33 +1,30 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/styles';
-import DivingCenterCard from '../../components/divingCenter/DivingCenterCard';
-import CustomLayout from '../../components/common/Layout';
-import { useDivingCenters } from '../../contexts/DivingCenterContext';
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@mui/styles";
+import { Grid, Typography, CircularProgress, Paper } from "@mui/material";
+import CustomLayout from "../../components/common/Layout.js";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
-}));
+import axios from "axios";
+import PromotionsSection from "../../components/dashbaord/promotionsSection";
+import { API_URL } from "../../utils/constants";
+import ContactSection from "../../components/dashbaord/ContactSection";
+
+import BackgroundSection from "../../components/dashbaord/BackgroundSection";
+import Button from "../../components/common/Button";
+import Footer from "../../components/common/footer.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllDivingCenters } from "../../features/divingCenters/divingCentersSlice.js";
 
 const DivingCenterList = () => {
-  const classes = useStyles();
-  const { divingCenters } = useDivingCenters();
+  const { isLoading } = useSelector((store) => store.divingCentersState);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllDivingCenters());
+  }, []);
 
   return (
     <CustomLayout>
-      <h1>Diving Centers</h1>
-      <div className={classes.root}>
-        {divingCenters.map((divingCenter) => (
-          <DivingCenterCard key={divingCenter._id} divingCenter={divingCenter} />
-        ))}
-      </div>
+      <BackgroundSection />
+      <PromotionsSection />
     </CustomLayout>
   );
 };

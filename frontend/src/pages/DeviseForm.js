@@ -25,7 +25,7 @@ function DeviseForm() {
 
   const { selectedCenter } = useSelector((store) => store.divingCentersState);
   useEffect(() => {
-    if (!selectedCenter) {
+    if (!selectedCenter || !selectedCenter.email) {
       history.push("/");
     }
   }, []);
@@ -51,7 +51,10 @@ function DeviseForm() {
       center: selectedCenter,
     };
     let url = api + "/diving-centers/deviseForm";
-
+    if (!email) {
+      alert("Veuillez remplir le champ email");
+      return;
+    }
     const res = await customFetch.post(url, formData);
     // if (res.ok) {
     //   alert("Votre demande a été envoyée avec succès");
@@ -224,7 +227,7 @@ function DeviseForm() {
           </form>
         </div>
         <div className="tripInfo">
-          <img src={selectedCenter.image} alt="" />
+          <img src={selectedCenter?.image} alt="" />
           <h2>{selectedCenter?.name}</h2>
           <p>{selectedCenter?.address}</p>
         </div>
