@@ -16,11 +16,11 @@ exports.updateUserById = async (id, userData) => {
 
 exports.deleteUserById = async (id) => {
   return await User.findByIdAndDelete(id);
+  // return await User.deleteMany({});
 };
 
 exports.registerUser = async (userData) => {
   const user = await User.create(userData);
-  return;
 };
 
 exports.loginUser = async (email, password) => {
@@ -31,5 +31,5 @@ exports.loginUser = async (email, password) => {
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: "24h",
   });
-  return token;
+  return { token, user: { name: user.name, email: user.email } };
 };

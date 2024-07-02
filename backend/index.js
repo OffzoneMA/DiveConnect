@@ -21,7 +21,7 @@ app.use(cors());
 app.use("/diving-centers", divingCenterRoutes);
 app.use("/diving-associations", divingAssociationRoutes);
 app.use("/bookings", bookingRoutes);
-app.use("/users", userRoutes);
+app.use("/user", userRoutes);
 app.use("/", (req, res) => {
   const endpoints = listEndpoints(app);
   res.json(endpoints);

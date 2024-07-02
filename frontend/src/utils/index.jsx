@@ -1,4 +1,7 @@
 import axios from "axios";
+import { clearStore } from "../features/users/userSlice";
+import { getUserFromLocalStorage } from "./localStorage";
+
 // import { removeUserFromLocalStorage } from "./localStorage";
 import { API_URL } from "./constants";
 export const customFetch = axios.create({
@@ -29,6 +32,22 @@ customFetch.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// customFetch.interceptors.request.use((config) => {
+//   const user = getUserFromLocalStorage();
+//   if (user) {
+//     config.headers["Authorization"] = `Bearer ${user.token}`;
+//   }
+//   return config;
+// });
+
+export const checkForUnauthorizedResponse = (error, thunkAPI) => {
+  if (error.response.status === 401) {
+    thunkAPI.dispatch(clearStore());
+    return thunkAPI.rejectWithValue("Unauthorized! Logging Out...");
+  }
+  return thunkAPI.rejectWithValue(error.response.data.msg);
+};
 export const formatPrice = (price) => {
   const dollarsAmount = new Intl.NumberFormat("en-US", {
     style: "currency",

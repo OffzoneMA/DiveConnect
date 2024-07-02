@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
-import { Typography, TextField, Button, Link } from '@mui/material';
-
+import React, { useState } from "react";
+import { makeStyles } from "@mui/styles";
+import { Typography, TextField, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "../features/users/userSlice";
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     padding: theme.spacing(4),
     maxWidth: 400,
-    margin: 'auto',
+    margin: "auto",
     marginTop: theme.spacing(8),
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
   },
   form: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(2),
-    '& > *': {
+    "& > *": {
       marginBottom: theme.spacing(2),
     },
   },
@@ -26,32 +29,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Register = ({ setShowRegister }) => {
   const classes = useStyles();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
+  const dispatch = useDispatch();
+  const history = useHistory();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    try {
-      const response = await fetch('/api/users/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ firstName: name, email, password, role: 'diver' }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error);
-      }
-
-      // Registration successful, redirect or show success message
-    } catch (error) {
-      setError(error.message);
-    }
+    event.preventDefault();
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (
@@ -96,7 +84,7 @@ const Register = ({ setShowRegister }) => {
         </Button>
       </form>
       <Typography variant="body2" align="center" gutterBottom>
-        Already have an account? <Link href="/login">Login here</Link>
+        Already have an account? <Link to="/login">Login here</Link>
       </Typography>
     </div>
   );

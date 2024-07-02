@@ -24,7 +24,7 @@ exports.getUserById = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     await userService.registerUser(req.body);
-    res.status(201);
+    res.status(201).json({ message: "User created" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -57,9 +57,16 @@ exports.deleteUserById = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const token = await userService.loginUser(email, password);
-    res.status(200).json({ token });
+    const { user, token } = await userService.loginUser(email, password);
+    res.status(200).json(user);
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
+};
+exports.logout = async (req, res) => {
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.status(StatusCodes.OK).json({ msg: "successfully logged out" });
 };

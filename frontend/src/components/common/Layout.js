@@ -6,7 +6,10 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { clearStore, logoutUser } from "../../features/users/userSlice";
+import { useDispatch } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -28,7 +31,11 @@ const useStyles = makeStyles((theme) => ({
 
 const CustomLayout = ({ children }) => {
   const classes = useStyles();
-
+  const { user } = useSelector((store) => store.userState);
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(clearStore());
+  };
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -41,24 +48,37 @@ const CustomLayout = ({ children }) => {
           >
             DiveConnect
           </Typography>
-          <div>
-            <Button
-              component={Link}
-              to="/login"
-              className={classes.button}
-              color="inherit"
-            >
-              Login
-            </Button>
-            <Button
-              component={Link}
-              to="/register"
-              className={classes.button}
-              color="inherit"
-            >
-              Register
-            </Button>
-          </div>
+          {user ? (
+            <>
+              <p>{user.name}</p>
+              <Button
+                className={classes.button}
+                color="inherit"
+                onClick={handleLogout}
+              >
+                <LogoutIcon />
+              </Button>
+            </>
+          ) : (
+            <div>
+              <Button
+                component={Link}
+                to="/login"
+                className={classes.button}
+                color="inherit"
+              >
+                Login
+              </Button>
+              <Button
+                component={Link}
+                to="/register"
+                className={classes.button}
+                color="inherit"
+              >
+                Register
+              </Button>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
       {children}
