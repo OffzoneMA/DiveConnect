@@ -6,7 +6,6 @@ import {
   Button,
   Grid,
   FormControlLabel,
-  Switch,
   Stack,
   Autocomplete,
 } from "@mui/material";
@@ -18,7 +17,7 @@ import {
   getAllDivingCenters,
   handleChange,
 } from "../../features/divingCenters/divingCentersSlice";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 const useStyles = makeStyles(() => ({
   paper: {
@@ -45,14 +44,14 @@ const PromotionsSection = () => {
     (store) => store.divingCentersState
   );
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const { search, pathname } = useLocation();
 
   const handleChangePagination = (e, value) => {
     console.log(value);
     const searchParams = new URLSearchParams(search);
     searchParams.set("page", value);
-    history.push(`${pathname}?${searchParams.toString()}`);
+    navigate(`${pathname}?${searchParams.toString()}`);
     dispatch(handleChange({ name: "page", value }));
     dispatch(getAllDivingCenters());
   };

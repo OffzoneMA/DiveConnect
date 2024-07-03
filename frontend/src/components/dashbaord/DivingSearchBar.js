@@ -16,7 +16,7 @@ import {
 } from "../../features/divingCenters/divingCentersSlice.js";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 const diveOptions = [
   "Guided dive to 20 meters",
   "Guided dive to 40 meters",
@@ -66,7 +66,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const DivingSearchBar = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -74,7 +74,7 @@ const DivingSearchBar = () => {
   const handleSearch = () => {
     const searchParams = new URLSearchParams(search);
     searchParams.set("city", search);
-    history.push(`${pathname}?${searchParams.toString()}`);
+    navigate(`${pathname}?${searchParams.toString()}`);
     dispatch(getAllDivingCenters());
   };
 

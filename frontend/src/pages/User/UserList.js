@@ -1,9 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@mui/styles';
-import UserCard from '../../components/user/UserCard';
-import CustomLayout from '../../components/common/Layout';
-import { useUsers } from '../../contexts/UserContext';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@mui/styles";
+import UserCard from "../../components/user/UserCard";
+import CustomLayout from "../../components/common/Layout";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,14 +10,14 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
 }));
 
 const UserList = () => {
   const classes = useStyles();
-  const { users } = useUsers();
+  const users = [];
 
   return (
     <CustomLayout>

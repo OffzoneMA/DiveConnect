@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { Typography, TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "../features/users/userSlice";
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +35,7 @@ const Register = ({ setShowRegister }) => {
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.preventDefault();

@@ -5,12 +5,9 @@ import CustomLayout from "../components/common/Layout";
 import axios from "axios";
 import PromotionsSection from "../components/dashbaord/promotionsSection";
 import { API_URL } from "../utils/constants";
-import ContactSection from "../components/dashbaord/ContactSection";
 import { Link } from "react-router-dom";
 
-import BackgroundSection from "../components/dashbaord/BackgroundSection";
 import Button from "@mui/material/Button";
-import Footer from "../components/common/footer.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDivingCenters } from "../features/divingCenters/divingCentersSlice.js";
 
@@ -38,23 +35,18 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <CustomLayout>
-      <section className={classes.section}>
-        <div className={classes.btn}>
-          <Button
-            component={Link}
-            to="/diving-center/list"
-            variant="contained"
-            color="primary"
-          >
-            Découvrir les centres
-          </Button>
-        </div>
-      </section>
-
-      <ContactSection />
-      <Footer />
-    </CustomLayout>
+    <section className={classes.section}>
+      <div className={classes.btn}>
+        <Button
+          component={Link}
+          to="/diving-center/list"
+          variant="contained"
+          color="primary"
+        >
+          Découvrir les centres
+        </Button>
+      </div>
+    </section>
   );
 };
 

@@ -4,7 +4,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const listEndpoints = require("express-list-endpoints");
+const cookieParser = require("cookie-parser");
 
+// Your routes and other middleware configurations follow here
 const divingAssociationRoutes = require("./src/microservices/divingAssociation/routes/divingAssociation");
 const bookingRoutes = require("./src/microservices/booking/routes/booking");
 const userRoutes = require("./src/microservices/user/routes/userRouter");
@@ -16,6 +18,8 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors());
+
+app.use(cookieParser("secret_string"));
 
 // Use routes
 app.use("/diving-centers", divingCenterRoutes);

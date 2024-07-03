@@ -57,16 +57,16 @@ exports.deleteUserById = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const { user, token } = await userService.loginUser(email, password);
+    const { user, token } = await userService.loginUser(email, password, res);
     res.status(200).json(user);
   } catch (err) {
     res.status(401).json({ error: err.message });
   }
 };
 exports.logout = async (req, res) => {
-  res.cookie("accessToken", "logout", {
+  res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
   });
-  res.status(StatusCodes.OK).json({ msg: "successfully logged out" });
+  res.status(200).json({ msg: "successfully logged out" });
 };

@@ -4,29 +4,23 @@ import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import {
-  Paper,
-  TextField,
-  Button,
-  FormControlLabel,
-  Switch,
-} from "@mui/material";
+import { Paper, TextField, Button, FormControlLabel } from "@mui/material";
 import { func } from "prop-types";
 import { api, customFetch } from "../utils";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DivingTripCard from "../components/dashbaord/DivingTripCard";
 import axios from "axios";
 const equipmentOptions = ["Détendeur", "Stab", "Masque/Tuba", "Palmes"];
 
 const useStyles = makeStyles((theme) => ({}));
 function DeviseForm() {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { selectedCenter } = useSelector((store) => store.divingCentersState);
   useEffect(() => {
     if (!selectedCenter || !selectedCenter.email) {
-      history.push("/");
+      navigate("/");
     }
   }, []);
   const [materials, setMaterials] = useState([]);

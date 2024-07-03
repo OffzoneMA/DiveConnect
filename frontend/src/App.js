@@ -1,5 +1,11 @@
 import * as React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -17,38 +23,73 @@ import UserNew from "./pages/User/UserNew";
 import UserDetails from "./pages/User/UserDetails";
 
 import DeviseForm from "./pages/DeviseForm";
+import CustomLayout from "./components/common/Layout";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { element } from "prop-types";
 
-function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Dashboard} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-        <Route path="/diving-center" component={DivingCenterList} />
-        <Route path="/diving-center/list" component={DivingCenterList} />
-        <Route path="/diving-center/new" component={DivingCenterNew} />
-        <Route path="/diving-center/:id" component={DivingCenterDetails} />
-        <Route path="/diving-association" component={DivingAssociationList} />
-        <Route
-          path="/diving-association/list"
-          component={DivingAssociationList}
-        />
-        <Route
-          path="/diving-association/new"
-          component={DivingAssociationNew}
-        />
-        <Route
-          path="/diving-association/:id"
-          component={DivingAssociationDetails}
-        />
-        <Route path="/user/list" component={UserList} />
-        <Route path="/user/new" component={UserNew} />
-        <Route path="/user/:id" component={UserDetails} />
-        <Route path="/deviseForm" component={DeviseForm} />
-      </Switch>
-    </Router>
-  );
-}
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <ProtectedRoute children={<CustomLayout></CustomLayout>} />,
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        element: <DivingCenterList />,
+        path: "/diving-center/list",
+      },
+      {
+        element: <DivingCenterNew />,
+        path: "/diving-center/new",
+      },
+      {
+        element: <DivingCenterDetails />,
+        path: "/diving-center/:id",
+      },
+      {
+        element: <DivingAssociationList />,
+        path: "/diving-association/list",
+      },
+      {
+        element: <DivingAssociationNew />,
+        path: "/diving-association/new",
+      },
+      {
+        element: <DivingAssociationDetails />,
+        path: "/diving-association/:id",
+      },
+      {
+        element: <UserList />,
+        path: "/user/list",
+      },
+      {
+        element: <UserNew />,
+        path: "/user/new",
+      },
+      {
+        element: <UserDetails />,
+        path: "/user/:id",
+      },
+      {
+        element: <DeviseForm />,
+        path: "/deviseForm",
+      },
+    ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
+  },
+]);
+
+const App = () => {
+  return <RouterProvider router={router} />;
+};
 
 export default App;

@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { loginUser } from "../features/users/userSlice";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Login = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { user } = useSelector((store) => store.userState);
   const classes = useStyles();
   const [email, setEmail] = useState("");
@@ -61,7 +61,7 @@ const Login = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        history.push("/");
+        navigate("/");
       }, 1000);
     }
   }, [user]);

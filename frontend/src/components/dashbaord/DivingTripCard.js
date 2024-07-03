@@ -7,7 +7,7 @@ import {
   CardMedia,
   Typography,
 } from "@mui/material";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { handleChange } from "../../features/divingCenters/divingCentersSlice";
 const useStyles = makeStyles({
@@ -33,12 +33,12 @@ const DivingTripCard = ({ trip }) => {
   // // Use trip data if provided, otherwise use placeholder data
   // const tripData = trip || placeholderTrip;
   const tripData = trip;
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleNavigate = () => {
     dispatch(handleChange({ name: "selectedCenter", value: trip }));
-    history.push("/deviseForm");
+    navigate("/deviseForm");
   };
   return (
     <Card className={classes.root} onClick={handleNavigate}>

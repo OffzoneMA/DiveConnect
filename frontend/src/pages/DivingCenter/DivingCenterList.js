@@ -22,10 +22,10 @@ const DivingCenterList = () => {
   }, []);
 
   return (
-    <CustomLayout>
+    <>
       <BackgroundSection />
       <PromotionsSection />
-    </CustomLayout>
+    </>
   );
 };
 

@@ -5,11 +5,14 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { clearStore, logoutUser } from "../../features/users/userSlice";
 import { useDispatch } from "react-redux";
+import ContactSection from "../dashbaord/ContactSection";
+import Footer from "./footer";
+import ProtectedRoute from "../ProtectedRoute";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -81,7 +84,9 @@ const CustomLayout = ({ children }) => {
           )}
         </Toolbar>
       </AppBar>
-      {children}
+      ´<Outlet />
+      <ContactSection />
+      <Footer />
     </div>
   );
 };
