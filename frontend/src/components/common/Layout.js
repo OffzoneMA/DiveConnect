@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     justifyContent: "space-between", // Align items to the start and end of the toolbar
+    margin: "0 ",
   },
   button: {
     marginLeft: theme.spacing(2),
@@ -84,7 +85,7 @@ const CustomLayout = ({ children }) => {
           )}
         </Toolbar>
       </AppBar>
-      ´<Outlet />
+      <Outlet />
       <ContactSection />
       <Footer />
     </div>

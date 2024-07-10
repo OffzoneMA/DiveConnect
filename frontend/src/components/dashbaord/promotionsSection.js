@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import {
   Paper,
@@ -8,7 +8,11 @@ import {
   FormControlLabel,
   Stack,
   Autocomplete,
+  FormGroup,
+  Checkbox,
 } from "@mui/material";
+import { Link } from "react-router-dom";
+
 import Pagination from "@mui/material/Pagination";
 import DivingTripCard from "./DivingTripCard";
 import { useSelector } from "react-redux";
@@ -25,30 +29,51 @@ const useStyles = makeStyles(() => ({
     margin: "0 auto",
     marginBottom: "50px",
     width: "80%",
+    justifyContent: "center",
   },
-  tripContainer: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-  },
-
-  pagination: {
-    margin: "0 auto",
+  submitBtn: {
+    textAlign: "right",
     marginTop: "2rem",
+  },
+  pagination: {
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
   },
 }));
 
 const PromotionsSection = () => {
+  const dispatch = useDispatch();
+
   const classes = useStyles();
   const { divingCenters, isLoading, page, numOfPages } = useSelector(
     (store) => store.divingCentersState
   );
-  const dispatch = useDispatch();
+  let [checkedAll, setCheckedAll] = useState(false);
+  const handleCheckedAll = (checked) => {
+    let newDivingCenters = [...divingCenters];
+    newDivingCenters = newDivingCenters.map((center) => {
+      return { ...center, selected: checked };
+    });
+    console.log(checked);
+    dispatch(handleChange({ name: "divingCenters", value: newDivingCenters }));
+  };
+
   const navigate = useNavigate();
   const { search, pathname } = useLocation();
-
+  const handleSelect = (checked, id) => {
+    let newDivingCenters = [...divingCenters];
+    newDivingCenters.map((center, index) => {
+      if (center._id === id) {
+        newDivingCenters[index] = { ...center, selected: checked };
+      }
+    });
+    dispatch(handleChange({ name: "divingCenters", value: newDivingCenters }));
+  };
+  useEffect(() => {
+    setCheckedAll(divingCenters.every((center) => center.selected));
+  }, [divingCenters]);
   const handleChangePagination = (e, value) => {
-    console.log(value);
     const searchParams = new URLSearchParams(search);
     searchParams.set("page", value);
     navigate(`${pathname}?${searchParams.toString()}`);
@@ -61,14 +86,44 @@ const PromotionsSection = () => {
         Our Famous locations
       </Typography> */}
       {/* Enhanced promotions section with cards */}
-      <div className={classes.tripContainer}>
-        <Grid container spacing={2} className={classes.tripContainer}>
-          {divingCenters.map((center) => (
-            <Grid item xs={12} sm={6} md={4} key={center._id}>
-              <DivingTripCard trip={center} />
+      <FormControlLabel
+        sx={{ marginLeft: "1rem", marginBottom: "1rem" }}
+        label="Select All"
+        control={
+          <Checkbox
+            onChange={(e) => handleCheckedAll(e.target.checked)}
+            checked={checkedAll}
+            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
+          />
+        }
+      />
+      <Grid container spacing={2} className={classes.tripContainer}>
+        {divingCenters.map((center) => {
+          return (
+            <Grid item xs={12} sm={12} md={12} key={center._id}>
+              <DivingTripCard
+                checkedAll={checkedAll}
+                handleSelect={handleSelect}
+                trip={center}
+              />
             </Grid>
-          ))}
-        </Grid>
+          );
+        })}
+      </Grid>
+      <div className={classes.submitBtn}>
+        <Button
+          component={Link}
+          to="/deviseForm"
+          variant="contained"
+          color="primary"
+          sx={{}}
+        >
+          Découvrir les centres
+        </Button>
+      </div>
+      <br />
+      <br />
+      <div className={classes.pagination}>
         <Stack className={classes.pagination} spacing={2}>
           <Pagination
             count={numOfPages}
@@ -78,11 +133,10 @@ const PromotionsSection = () => {
           />
         </Stack>
       </div>
-      <br />
-      <br />
+
       {/* <Button variant="contained" color="primary">
         View All Promotions
-      </Button> */}
+        </Button> */}
     </Paper>
   );
 };

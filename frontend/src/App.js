@@ -30,7 +30,7 @@ import { element } from "prop-types";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <ProtectedRoute children={<CustomLayout></CustomLayout>} />,
+    element: <CustomLayout />,
     children: [
       {
         index: true,

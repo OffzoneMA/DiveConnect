@@ -1,9 +1,8 @@
 const nodemailer = require("nodemailer");
 // const sgMail = require("@sendgrid/mail");
 // testing
-exports.sendEmailTest = async (req, res) => {
+exports.sendEmailTest = async (center, formData) => {
   // let testAccount = await nodemailer.createTestAccount();
-  const formData = req.body;
   let emailContent = `
 <!DOCTYPE html>
 <html>
@@ -45,13 +44,19 @@ exports.sendEmailTest = async (req, res) => {
       <span>Number of Dives:</span> ${formData.divesNum}
     </div>
     <div class="email-section">
-      <span>Diver's Level:</span> ${formData.diversLevel}
+      <span>The number of Diver's Level 1:</span> ${formData.diversLevel1}
     </div>
     <div class="email-section">
-      <span>Total Cost:</span> $${formData.total}
+      <span>The number of Diver's Level 2:</span> ${formData.diversLevel2}
     </div>
     <div class="email-section">
-      <span>Dive Center:</span> ${formData.center.name}
+      <span>The number of Diver's Level 3:</span> ${formData.diversLevel3}
+    </div>
+    <div class="email-section">
+      <span>Total divers:</span> ${formData.total}
+    </div>
+    <div class="email-section">
+      <span>Dive Center:</span> ${center.name}
     </div>
   </div>
 </body>
@@ -67,11 +72,11 @@ exports.sendEmailTest = async (req, res) => {
   });
   let info = await transporter.sendMail({
     from: formData.email,
-    to: formData.center.email,
+    to: center.email,
     subject: "Demande de réservation de plongée",
     html: `<h2>${emailContent}</h2>`,
   });
-  res.json(info);
+  return info;
 };
 // production
 exports.sendEmailProduction = async (req, res) => {

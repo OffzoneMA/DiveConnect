@@ -12,8 +12,7 @@ const initialState = {
   numOfPages: 1,
   totalDivingCenters: 0,
   divingCenters: [],
-  selectedCenter: null,
-
+  selectedCenters: null,
   ...initialFilters,
 };
 
@@ -30,7 +29,7 @@ const divingCentersSlice = createSlice({
       if (!changeProduct) {
         // in case the field is an array
         if (Array.isArray(state[name])) {
-          state[name] = [value];
+          state[name] = [...value];
         } else {
           state[name] = value;
         }
@@ -51,7 +50,13 @@ const divingCentersSlice = createSlice({
     },
     [getAllDivingCenters.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
-      state.divingCenters = payload.divingCenters;
+
+      let newDivingCenters = [...payload.divingCenters];
+      newDivingCenters = newDivingCenters.map((center) => {
+        return { ...center, selected: false };
+      });
+      state.divingCenters = newDivingCenters;
+
       state.numOfPages = payload.numOfPages;
       state.totalDivingCenters = payload.totalDivingCenters;
       state.page = payload.page;

@@ -138,7 +138,14 @@ exports.deleteDivingCenterBooking = async (req, res) => {
 exports.createDeviseForm = async (req, res) => {
   try {
     console.log(req.body);
-    sendEmailTest(req, res);
+    const formData = req.body.formData;
+    req.body.centers.map((center) => {
+      sendEmailTest(center, formData);
+      // const formData = req.body;
+      // formData.center = center;
+      // const emailContent = `
+    });
+    res.status(200).json({ message: "Email sent successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -4,7 +4,13 @@ import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 
-import { Paper, TextField, Button, FormControlLabel } from "@mui/material";
+import {
+  Paper,
+  TextField,
+  Button,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
 import { func } from "prop-types";
 import { api, customFetch } from "../utils";
 import { useSelector } from "react-redux";
@@ -17,50 +23,97 @@ const useStyles = makeStyles((theme) => ({}));
 function DeviseForm() {
   const navigate = useNavigate();
 
-  const { selectedCenter } = useSelector((store) => store.divingCentersState);
+  const { divingCenters } = useSelector((store) => store.divingCentersState);
   useEffect(() => {
-    if (!selectedCenter || !selectedCenter.email) {
-      navigate("/");
-    }
+    // if (!selectedCenters || !selectedCenter.email) {
+    //   navigate("/");
+    // }
   }, []);
-  const [materials, setMaterials] = useState([]);
+  const [materials, setMaterials] = useState(equipmentOptions);
+  const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const classes = useStyles();
+  const [diversLevel1, setDiversLevel1] = useState(1);
+  const [diversLevel2, setDiversLevel2] = useState(1);
+  const [diversLevel3, setDiversLevel3] = useState(1);
+  const [total, setTotal] = useState(3);
   async function sendMail(e) {
     e.preventDefault();
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
     const divesNum = document.getElementById("divesNum").value;
-    const diversLevel = document.querySelector(
-      'input[name="divers"]:checked'
-    ).value;
-    const total = document.getElementById("total").value;
-    const formData = {
-      name,
-      email,
-      phone,
-      divesNum,
-      diversLevel,
-      total,
-      center: selectedCenter,
+
+    const form = {
+      formData: {
+        name,
+        email,
+        phone,
+        divesNum,
+        diversLevel1,
+        diversLevel2,
+        diversLevel3,
+        total,
+      },
+      centers: divingCenters.filter((center) => center.selected),
     };
     let url = api + "/diving-centers/deviseForm";
     if (!email) {
       alert("Veuillez remplir le champ email");
       return;
     }
-    const res = await customFetch.post(url, formData);
+    const res = await customFetch.post(url, form);
     // if (res.ok) {
     //   alert("Votre demande a été envoyée avec succès");
     // } else {
     //   alert("Une erreur s'est produite, veuillez réessayer");
     // }
   }
+  const qst = useRef();
+  const [showFqs, setShowFqs] = useState(false);
+  const [windowWidth, setwindowWidth] = useState(window.innerWidth);
+  const openFAQs = () => {
+    let e = document.querySelector(".item");
+    const allEquipments = [...qst.current.querySelectorAll(".item")];
+    allEquipments.forEach((x) => {
+      if (e !== x) {
+        x.style = `height:${x.querySelector("span").offsetHeight}px`;
+        x.classList.remove("open");
+      }
+    });
+
+    const item = e;
+    const span = item.querySelector("span");
+    const content = item.querySelector(".text");
+    item.style = `height: ${
+      item.classList[1] !== "open"
+        ? content.offsetHeight + span.offsetHeight + 40
+        : span.offsetHeight
+    }px`;
+    e.classList.toggle("open");
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setwindowWidth(window.innerWidth));
+  }, []);
+
+  useEffect(() => {
+    const items = [...qst.current.querySelectorAll(".item")];
+    items.forEach((x) => {
+      const span = x.querySelector("span");
+      x.style = `height:${span.offsetHeight}px`;
+      x.classList.remove("open");
+    });
+  }, [showFqs, windowWidth]);
+  useEffect(() => {
+    setTotal(
+      parseInt(diversLevel1) + parseInt(diversLevel2) + parseInt(diversLevel3)
+    );
+  }, [diversLevel1, diversLevel2, diversLevel3]);
   return (
     <Wrapper>
-      <div className="formbold-main-wrapper">
-        <div className="formbold-form-wrapper">
-          <form method="post">
+      <form method="post">
+        <div className="formbold-main-wrapper">
+          <div className="formbold-form-wrapper">
             <div className="formbold-input">
               <div>
                 <label htmlFor="name" className="formbold-form-label">
@@ -105,6 +158,7 @@ function DeviseForm() {
                 />
               </div>
             </div>
+
             <div className="formbold-input">
               <div>
                 <label htmlFor="divesNum" className="formbold-form-label">
@@ -121,52 +175,61 @@ function DeviseForm() {
                 />
               </div>
             </div>
-            <div className="formbold-input-radio-wrapper">
-              <label htmlFor="Divers" className="formbold-form-label">
-                {" "}
-                Les plongeurs{" "}
-              </label>
-
-              <div className="formbold-radio-flex">
-                <div className="formbold-radio-group">
-                  <label className="formbold-radio-label">
-                    <input
-                      className="formbold-input-radio"
-                      type="radio"
-                      value={1}
-                      name="divers"
-                      defaultChecked
-                    />
-                    Niveau 1<span className="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
-
-                <div className="formbold-radio-group">
-                  <label className="formbold-radio-label">
-                    <input
-                      className="formbold-input-radio"
-                      type="radio"
-                      name="divers"
-                      value={2}
-                    />
-                    Niveau 2<span className="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
-
-                <div className="formbold-radio-group">
-                  <label className="formbold-radio-label">
-                    <input
-                      className="formbold-input-radio"
-                      type="radio"
-                      name="divers"
-                      value={3}
-                    />
-                    Niveau 3<span className="formbold-radio-checkmark"></span>
-                  </label>
-                </div>
+            <br />
+            <label htmlFor="phone" className="formbold-form-label">
+              {" "}
+              Les plongueurs{" "}
+            </label>
+            <div className="formbold-input-flex">
+              <div>
+                <label htmlFor="email" className="formbold-form-label">
+                  {" "}
+                  Niveau 1{" "}
+                </label>
+                <input
+                  type="number"
+                  name="diversLevel1"
+                  defaultValue={diversLevel1}
+                  className="formbold-form-input"
+                  onChange={(e) => {
+                    setDiversLevel1(e.target.value);
+                  }}
+                  min={0}
+                />
+              </div>
+              <div>
+                <label htmlFor="phone" className="formbold-form-label">
+                  {" "}
+                  Niveau 2{" "}
+                </label>
+                <input
+                  type="number"
+                  name="diversLevel2"
+                  defaultValue={diversLevel2}
+                  className="formbold-form-input"
+                  onChange={(e) => {
+                    setDiversLevel2(e.target.value);
+                  }}
+                  min={0}
+                />
+              </div>
+              <div>
+                <label htmlFor="phone" className="formbold-form-label">
+                  {" "}
+                  Niveau 3{" "}
+                </label>
+                <input
+                  type="number"
+                  name="diversLevel3"
+                  defaultValue={diversLevel3}
+                  className="formbold-form-input"
+                  onChange={(e) => {
+                    setDiversLevel3(e.target.value);
+                  }}
+                  min={0}
+                />
               </div>
             </div>
-
             <div className="formbold-input">
               <div>
                 <label htmlFor="total" className="formbold-form-label">
@@ -178,22 +241,9 @@ function DeviseForm() {
                   name="total"
                   id="total"
                   placeholder="10"
-                  defaultValue={10}
+                  value={total}
                   className="formbold-form-input"
-                />
-              </div>
-            </div>
-            <div className="formbold-input">
-              <div>
-                <Autocomplete
-                  className={classes.diveTypesInput}
-                  multiple
-                  options={equipmentOptions}
-                  getOptionLabel={(option) => option}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Location matériel" />
-                  )}
-                  onChange={(event, value) => setMaterials(value)}
+                  disabled
                 />
               </div>
             </div>
@@ -218,31 +268,105 @@ function DeviseForm() {
             >
               Envoyer la demande
             </button>
-          </form>
+          </div>
+          <div className="tripInfo">
+            Location matériel <Checkbox onChange={openFAQs} />
+            <div className="content" ref={qst}>
+              <div>
+                <div className="item">
+                  <div className="item-content">
+                    <span> </span>
+                    <div className="text">
+                      {materials.map((material) => {
+                        return (
+                          <div className="formbold-input" key={material}>
+                            <div>
+                              <label className="formbold-form-label">
+                                {" "}
+                                la quantité de {material}{" "}
+                              </label>
+                              <input
+                                type="number"
+                                name={`material-${material}`}
+                                id="total"
+                                placeholder="10"
+                                defaultValue={0}
+                                min={0}
+                                className="formbold-form-input"
+                              />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* <div className="formbold-input">
+              <div>
+                <Autocomplete
+                  className={classes.diveTypesInput}
+                  multiple
+                  options={equipmentOptions}
+                  getOptionLabel={(option) => option}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Location matériel" />
+                  )}
+                  onChange={(event, value) => setMaterials(value)}
+                />
+              </div>
+            </div>
+            {materials.map((material) => {
+              return (
+                <div className="formbold-input">
+                  <div>
+                    <label htmlFor="total" className="formbold-form-label">
+                      {" "}
+                      la quantité de {material}{" "}
+                    </label>
+                    <input
+                      type="number"
+                      name="total"
+                      id="total"
+                      placeholder="10"
+                      defaultValue={10}
+                      className="formbold-form-input"
+                    />
+                  </div>
+                </div>
+              );
+            })} */}
+          </div>
         </div>
-        <div className="tripInfo">
-          <img src={selectedCenter?.image} alt="" />
-          <h2>{selectedCenter?.name}</h2>
-          <p>{selectedCenter?.address}</p>
-        </div>
-      </div>
+      </form>
     </Wrapper>
   );
 }
 const Wrapper = styled.section`
   .content {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
+    .additional-info {
+      display: none;
+    }
+    .additional-info.visible {
+      display: block;
+    }
+    .toggle-button {
+      cursor: pointer;
+      color: blue;
+      text-decoration: underline;
+    }
     .item {
       width: 100%;
       overflow: hidden;
-      display: flex;
       padding: 0;
       position: relative;
       transition: all 300ms ease-out;
-      cursor: pointer;
+      /* cursor: pointer; */
       * {
-        pointer-events: none;
+        /* pointer-events: none; */
         transition: all 200ms ease;
       }
       .item-content {
@@ -299,10 +423,11 @@ const Wrapper = styled.section`
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     width: 50%;
+    padding: 2rem 3rem;
     /* height: 100%; */
     align-self: stretch;
     background: white;
-    text-align: center;
+    /* text-align: center; */
     img {
       width: 100%;
       border-top-right-radius: 5rem;

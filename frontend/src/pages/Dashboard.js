@@ -43,7 +43,7 @@ const Dashboard = () => {
           variant="contained"
           color="primary"
         >
-          Découvrir les centres
+          Envoyer
         </Button>
       </div>
     </section>
