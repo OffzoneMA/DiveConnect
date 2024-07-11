@@ -3,7 +3,8 @@ import { makeStyles } from "@mui/styles";
 import styled from "styled-components";
 import { useState, useEffect, useRef } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import { useDispatch } from "react-redux";
+import { getAllEquipments } from "../features/equipments/equipmentsSlice";
 import {
   Paper,
   TextField,
@@ -12,30 +13,39 @@ import {
   Checkbox,
 } from "@mui/material";
 import { func } from "prop-types";
-import { api, customFetch } from "../utils";
+import { api, checkForUnauthorizedResponse, customFetch } from "../utils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import DivingTripCard from "../components/dashbaord/DivingTripCard";
 import axios from "axios";
-const equipmentOptions = ["Détendeur", "Stab", "Masque/Tuba", "Palmes"];
-
+import { clearStore } from "../features/users/userSlice";
+// const materials = ["Stab", "Palmes", "Masque", "Détendeur"];
 const useStyles = makeStyles((theme) => ({}));
 function DeviseForm() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { divingCenters } = useSelector((store) => store.divingCentersState);
-  useEffect(() => {
-    // if (!selectedCenters || !selectedCenter.email) {
-    //   navigate("/");
-    // }
-  }, []);
-  const [materials, setMaterials] = useState(equipmentOptions);
-  const [showAdditionalInfo, setShowAdditionalInfo] = useState(false);
   const classes = useStyles();
+  useEffect(() => {
+    dispatch(getAllEquipments());
+  }, []);
+
+  const { equipments } = useSelector((store) => store.equipmentsState);
+  const { divingCenters } = useSelector((store) => store.divingCentersState);
+  const { user } = useSelector((store) => store.userState);
+  useEffect(() => {
+    if (!divingCenters.length) {
+      navigate("/diving-center/list");
+    }
+  }, []);
   const [diversLevel1, setDiversLevel1] = useState(1);
   const [diversLevel2, setDiversLevel2] = useState(1);
   const [diversLevel3, setDiversLevel3] = useState(1);
   const [total, setTotal] = useState(3);
+  const [materialQuantities, setMaterialQuantities] = useState({});
+  const handleMaterialChange = (e, materialId) => {
+    const value = e.target.value;
+    setMaterialQuantities((prev) => ({ ...prev, [materialId]: value }));
+  };
   async function sendMail(e) {
     e.preventDefault();
     const name = document.getElementById("name").value;
@@ -54,14 +64,23 @@ function DeviseForm() {
         diversLevel3,
         total,
       },
+      materials: materialQuantities,
       centers: divingCenters.filter((center) => center.selected),
+      user,
     };
     let url = api + "/diving-centers/deviseForm";
     if (!email) {
       alert("Veuillez remplir le champ email");
       return;
     }
-    const res = await customFetch.post(url, form);
+    try {
+      const res = await customFetch.post(url, form);
+    } catch (error) {
+      if (error.response.status === 401) {
+        console.log(error);
+        // dispatch(clearStore());
+      }
+    }
     // if (res.ok) {
     //   alert("Votre demande a été envoyée avec succès");
     // } else {
@@ -277,22 +296,26 @@ function DeviseForm() {
                   <div className="item-content">
                     <span> </span>
                     <div className="text">
-                      {materials.map((material) => {
+                      {equipments.map((material) => {
                         return (
-                          <div className="formbold-input" key={material}>
+                          <div className="formbold-input" key={material._id}>
                             <div>
                               <label className="formbold-form-label">
                                 {" "}
-                                la quantité de {material}{" "}
+                                la quantité de {material.name}{" "}
                               </label>
                               <input
                                 type="number"
-                                name={`material-${material}`}
-                                id="total"
+                                name={[`material-${material._id}`]}
+                                id={[`material-${material._id}`]}
                                 placeholder="10"
                                 defaultValue={0}
                                 min={0}
+                                max={material.quantity}
                                 className="formbold-form-input"
+                                onChange={(e) =>
+                                  handleMaterialChange(e, material._id)
+                                }
                               />
                             </div>
                           </div>

@@ -73,7 +73,11 @@ const router = createBrowserRouter([
         path: "/user/:id",
       },
       {
-        element: <DeviseForm />,
+        element: (
+          <ProtectedRoute>
+            <DeviseForm />
+          </ProtectedRoute>
+        ),
         path: "/deviseForm",
       },
     ],

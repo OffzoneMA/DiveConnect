@@ -5,10 +5,13 @@ const bookingSchema = new mongoose.Schema({
   divingCenter: { type: mongoose.Schema.Types.ObjectId, ref: "DivingCenter" },
   date: Date,
   numberOfDivers: Number,
-  equipment: [
+  equipments: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Equipment",
+      equipment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Equipment",
+      },
+      quantity: Number,
     },
   ],
 });

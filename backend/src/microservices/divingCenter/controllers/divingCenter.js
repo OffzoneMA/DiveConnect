@@ -1,6 +1,7 @@
 const divingCenterService = require("../services/divingCenter");
 const bookingService = require("../../booking/services/booking");
 const { sendEmailTest } = require("./email");
+const Booking = require("../../booking/models/Booking");
 
 exports.getDivingCenters = async (req, res) => {
   try {
@@ -138,14 +139,24 @@ exports.deleteDivingCenterBooking = async (req, res) => {
 exports.createDeviseForm = async (req, res) => {
   try {
     console.log(req.body);
-    const formData = req.body.formData;
-    req.body.centers.map((center) => {
+    const { materials, formData, centers, user } = req.body;
+    const equipments = Object.entries(materials).map(([key, value]) => ({
+      equipment: key,
+      quantity: Number(value),
+    }));
+    centers.map(async (center) => {
       sendEmailTest(center, formData);
-      // const formData = req.body;
-      // formData.center = center;
-      // const emailContent = `
+      const booking = new Booking({
+        user: user._id,
+        divingCenter: center._id,
+        date: req.body.date,
+        numberOfDivers: formData.total,
+        equipments,
+      });
+      await booking.save();
     });
-    res.status(200).json({ message: "Email sent successfully" });
+
+    res.status(200).json({ message: "reservation created" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

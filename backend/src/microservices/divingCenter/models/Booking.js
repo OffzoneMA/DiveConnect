@@ -1,10 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema({
-  divingCenter: { type: mongoose.Schema.Types.ObjectId, ref: 'DivingCenter' },
+  divingCenter: { type: mongoose.Schema.Types.ObjectId, ref: "DivingCenter" },
   date: { type: Date, required: true },
   numberOfDivers: { type: Number, required: true },
-  // add more fields as needed
+  equipments: [
+    {
+      equipment: { type: mongoose.Schema.Types.ObjectId, ref: "Equipment" },
+      quantity: { type: Number, required: true },
+    },
+  ],
 });
 
-module.exports = mongoose.model('Booking', bookingSchema);
+module.exports = mongoose.model("Booking", bookingSchema);

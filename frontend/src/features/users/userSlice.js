@@ -3,7 +3,6 @@ import {
   addUserToLocalStorage,
   getUserFromLocalStorage,
   removeUserFromLocalStorage,
-  getThemeFromLocalStorage,
 } from "../../utils/localStorage";
 import {
   loginUserThunk,
@@ -56,7 +55,6 @@ const initialState = {
   isLoading: false,
   isSidebarOpen: false,
   user: getUserFromLocalStorage(),
-  theme: getThemeFromLocalStorage(),
 };
 
 const userSlice = createSlice({
@@ -70,7 +68,6 @@ const userSlice = createSlice({
       removeUserFromLocalStorage();
       console.log("Logged Out!");
     },
-    toggleTheme: (state) => {},
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
     },
@@ -130,6 +127,5 @@ const userSlice = createSlice({
       });
   },
 });
-export const { toggleSidebar, toggleTheme, clearUserValues } =
-  userSlice.actions;
+export const { toggleSidebar, clearUserValues } = userSlice.actions;
 export default userSlice.reducer;

@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useSelector((store) => store.userState);
+
   if (!user) {
-    return <Navigate to="/login" />;
+    alert("You need to login first");
+    return <Navigate to="/" />;
   }
   return children;
 };

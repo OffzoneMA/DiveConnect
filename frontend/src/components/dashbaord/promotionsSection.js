@@ -118,7 +118,7 @@ const PromotionsSection = () => {
           color="primary"
           sx={{}}
         >
-          Découvrir les centres
+          Envoyer
         </Button>
       </div>
       <br />

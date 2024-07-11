@@ -24,7 +24,7 @@ const BackgroundSection = () => {
   return (
     <section className={classes.section}>
       <div className={classes.searchBar}>
-        <DivingSearchBar/>
+        <DivingSearchBar />
       </div>
     </section>
   );

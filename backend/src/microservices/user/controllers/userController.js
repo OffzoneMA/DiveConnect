@@ -1,3 +1,4 @@
+const { sign } = require("jsonwebtoken");
 const userService = require("../services/userService");
 
 exports.getUsers = async (req, res) => {
@@ -67,6 +68,7 @@ exports.logout = async (req, res) => {
   res.cookie("token", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
+    signed: true,
   });
   res.status(200).json({ msg: "successfully logged out" });
 };
