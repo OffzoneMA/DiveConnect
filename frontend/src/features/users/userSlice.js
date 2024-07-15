@@ -62,7 +62,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     clearUserValues: (state) => {
-      console.log("l");
       state.user = null;
       state.isSidebarOpen = false;
       removeUserFromLocalStorage();

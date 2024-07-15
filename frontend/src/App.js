@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -26,6 +26,9 @@ import DeviseForm from "./pages/DeviseForm";
 import CustomLayout from "./components/common/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { element } from "prop-types";
+import Dashboard from "./pages/Home";
+import Centers from "./components/dashbaord/crud/Centers";
+import SharedLayer from "./components/dashbaord/crud/SharedLayer";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +37,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard />,
+        element: <Home />,
       },
       {
         element: <DivingCenterList />,
@@ -79,6 +82,16 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
         path: "/deviseForm",
+      },
+    ],
+  },
+  {
+    element: <SharedLayer />,
+    path: "/dashboard",
+    children: [
+      {
+        element: <Centers />,
+        path: "centers",
       },
     ],
   },

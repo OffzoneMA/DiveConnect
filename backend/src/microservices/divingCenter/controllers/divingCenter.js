@@ -149,7 +149,7 @@ exports.createDeviseForm = async (req, res) => {
       const booking = new Booking({
         user: user._id,
         divingCenter: center._id,
-        date: req.body.date,
+        date: formData.date,
         numberOfDivers: formData.total,
         equipments,
       });

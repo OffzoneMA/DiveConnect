@@ -2,11 +2,10 @@ import axios from "axios";
 import { clearStore } from "../features/users/userSlice";
 import { getUserFromLocalStorage } from "./localStorage";
 
-// import { removeUserFromLocalStorage } from "./localStorage";
+import { removeUserFromLocalStorage } from "./localStorage";
 import { API_URL } from "./constants";
 export const customFetch = axios.create({
   baseURL: API_URL,
-
   withCredentials: true,
   // headers: {
   //   "Content-Type": "application/json",
@@ -27,8 +26,11 @@ customFetch.interceptors.response.use(
   },
   (error) => {
     console.log(error);
-    if (error.response && error.response.status === 403) {
-      // removeUserFromLocalStorage();
+    if (
+      error.response &&
+      (error.response.status === 403 || error.response.status === 401)
+    ) {
+      removeUserFromLocalStorage();
       window.location.href = "/login";
     }
     return Promise.reject(error);

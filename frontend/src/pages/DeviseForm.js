@@ -5,6 +5,13 @@ import { useState, useEffect, useRef } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useDispatch } from "react-redux";
 import { getAllEquipments } from "../features/equipments/equipmentsSlice";
+
+import dayjs from "dayjs";
+
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import {
   Paper,
   TextField,
@@ -20,6 +27,9 @@ import DivingTripCard from "../components/dashbaord/DivingTripCard";
 import axios from "axios";
 import { clearStore } from "../features/users/userSlice";
 // const materials = ["Stab", "Palmes", "Masque", "Détendeur"];
+
+const today = dayjs();
+const tomorrow = dayjs().add(1, "day");
 const useStyles = makeStyles((theme) => ({}));
 function DeviseForm() {
   const dispatch = useDispatch();
@@ -41,6 +51,7 @@ function DeviseForm() {
   const [diversLevel2, setDiversLevel2] = useState(1);
   const [diversLevel3, setDiversLevel3] = useState(1);
   const [total, setTotal] = useState(3);
+  const [date, setDate] = useState(tomorrow);
   const [materialQuantities, setMaterialQuantities] = useState({});
   const handleMaterialChange = (e, materialId) => {
     const value = e.target.value;
@@ -63,6 +74,7 @@ function DeviseForm() {
         diversLevel2,
         diversLevel3,
         total,
+        date,
       },
       materials: materialQuantities,
       centers: divingCenters.filter((center) => center.selected),
@@ -75,6 +87,8 @@ function DeviseForm() {
     }
     try {
       const res = await customFetch.post(url, form);
+      alert("Votre demande a été envoyée avec succès");
+      navigate("/diving-center/list");
     } catch (error) {
       if (error.response.status === 401) {
         console.log(error);
@@ -289,6 +303,19 @@ function DeviseForm() {
             </button>
           </div>
           <div className="tripInfo">
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoItem label="choisis une date">
+                <DatePicker
+                  defaultValue={today}
+                  minDate={tomorrow}
+                  views={["year", "month", "day"]}
+                  onChange={(newValue) => {
+                    console.log("date", newValue.$d);
+                    setDate(newValue.$d);
+                  }}
+                />
+              </DemoItem>
+            </LocalizationProvider>
             Location matériel <Checkbox onChange={openFAQs} />
             <div className="content" ref={qst}>
               <div>
