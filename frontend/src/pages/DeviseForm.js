@@ -59,6 +59,7 @@ function DeviseForm() {
   };
   async function sendMail(e) {
     e.preventDefault();
+
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;

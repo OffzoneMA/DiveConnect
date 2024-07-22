@@ -16,11 +16,11 @@ const equipmentRoutes = require("./src/microservices/divingCenter/routes/equipme
 dotenv.config();
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "50mb" }));
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL,
     credentials: true,
   })
 );

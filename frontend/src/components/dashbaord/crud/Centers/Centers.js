@@ -12,17 +12,18 @@ import {
   Checkbox,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-
+import CentersCard from "./CentersCard";
 import Pagination from "@mui/material/Pagination";
-import DivingTripCard from "./DivingTripCard";
+import DivingTripCard from "../../DivingTripCard";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
-  getAllDivingCenters,
+  getAllDivingCentersOfUser,
   handleChange,
-} from "../../features/divingCenters/divingCentersSlice";
+} from "../../../../features/divingCenters/divingCentersSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import DivingSearchBar from "../../DivingSearchBar";
 const useStyles = makeStyles(() => ({
   paper: {
     padding: "20px",
@@ -42,10 +43,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const PromotionsSection = () => {
+const Centers = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getAllDivingCenters());
+    dispatch(getAllDivingCentersOfUser());
   }, []);
   const classes = useStyles();
   const { divingCenters, isLoading, page, numOfPages } = useSelector(
@@ -80,30 +81,31 @@ const PromotionsSection = () => {
     searchParams.set("page", value);
     navigate(`${pathname}?${searchParams.toString()}`);
     dispatch(handleChange({ name: "page", value }));
-    dispatch(getAllDivingCenters());
+    dispatch(getAllDivingCentersOfUser());
   };
   return (
     <Paper className={classes.paper}>
-      {/* <Typography variant="h2" gutterBottom>
-        Our Famous locations
-      </Typography> */}
-      {/* Enhanced promotions section with cards */}
-      <FormControlLabel
-        sx={{ marginLeft: "1rem", marginBottom: "1rem" }}
-        label="Select All"
-        control={
-          <Checkbox
-            onChange={(e) => handleCheckedAll(e.target.checked)}
-            checked={checkedAll}
-            sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-          />
-        }
-      />
+      <DivingSearchBar></DivingSearchBar>
+      <div className={classes.submitBtn}>
+        <Button
+          component={Link}
+          to="/dashboard/center"
+          onClick={() => {
+            dispatch(handleChange({ name: "image", value: null }));
+          }}
+          variant="contained"
+          color="primary"
+          sx={{}}
+        >
+          Ajouter un centre
+        </Button>
+      </div>
+      <br />
       <Grid container spacing={2} className={classes.tripContainer}>
         {divingCenters.map((center) => {
           return (
             <Grid item xs={12} sm={12} md={12} key={center._id}>
-              <DivingTripCard
+              <CentersCard
                 checkedAll={checkedAll}
                 handleSelect={handleSelect}
                 trip={center}
@@ -112,24 +114,7 @@ const PromotionsSection = () => {
           );
         })}
       </Grid>
-      <div className={classes.submitBtn}>
-        <Button
-          component={Link}
-          onClick={() => {
-            console.log("divingCenters", divingCenters);
-            if (!divingCenters.find((center) => center.selected)) {
-              alert("Veuillez sélectionner un centre de plongée ou plus");
-              return;
-            }
-            navigate("/deviseForm");
-          }}
-          variant="contained"
-          color="primary"
-          sx={{}}
-        >
-          Envoyer
-        </Button>
-      </div>
+
       <br />
       <br />
       <div className={classes.pagination}>
@@ -150,4 +135,4 @@ const PromotionsSection = () => {
   );
 };
 
-export default PromotionsSection;
+export default Centers;

@@ -1,8 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import PropTypes from "prop-types";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
 const DivingCenterCard = ({ divingCenter }) => {
   return (
@@ -11,12 +11,8 @@ const DivingCenterCard = ({ divingCenter }) => {
         <Typography variant="h5" component="h2">
           {divingCenter.name}
         </Typography>
-        <Typography variant="body1">
-          {divingCenter.address}
-        </Typography>
-        <Typography variant="body1">
-          {divingCenter.phoneNumber}
-        </Typography>
+        <Typography variant="body1">{divingCenter.address}</Typography>
+        <Typography variant="body1">{divingCenter.phoneNumber}</Typography>
       </CardContent>
     </Card>
   );

@@ -16,10 +16,6 @@ import { getAllDivingCenters } from "../../features/divingCenters/divingCentersS
 
 const DivingCenterList = () => {
   const { isLoading } = useSelector((store) => store.divingCentersState);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllDivingCenters());
-  }, []);
 
   return (
     <>

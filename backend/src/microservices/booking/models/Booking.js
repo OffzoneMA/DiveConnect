@@ -14,6 +14,10 @@ const bookingSchema = new mongoose.Schema({
       quantity: Number,
     },
   ],
+  email: String,
+  phone: String,
+  diversLevel1: Number,
+  diversLevel2: Number,
+  diversLevel3: Number,
 });
-
 module.exports = mongoose.model("Booking", bookingSchema);

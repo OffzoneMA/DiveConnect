@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { Grid, Typography, CircularProgress, Paper } from "@mui/material";
-import CustomLayout from "../components/common/Layout";
+import CustomLayout from "../components/common/Layout.js";
 import axios from "axios";
-import PromotionsSection from "../components/dashbaord/promotionsSection";
-import { API_URL } from "../utils/constants";
+import PromotionsSection from "../components/dashbaord/promotionsSection.js";
+import { API_URL } from "../utils/constants.js";
 import { Link } from "react-router-dom";
 
 import Button from "@mui/material/Button";
@@ -29,10 +29,6 @@ const Dashboard = () => {
   const classes = useStyles();
 
   const { isLoading } = useSelector((store) => store.divingCentersState);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getAllDivingCenters());
-  }, []);
 
   return (
     <section className={classes.section}>

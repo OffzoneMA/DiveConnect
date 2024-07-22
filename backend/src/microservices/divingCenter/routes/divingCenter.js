@@ -4,8 +4,13 @@ const divingCenterController = require("../controllers/divingCenter");
 const { authenticateUser } = require("../../../middleware/authentication");
 
 router.get("/", divingCenterController.getDivingCenters);
+router.get("/user", [
+  authenticateUser,
+  divingCenterController.getDivingCenterUser,
+]);
+
 router.get("/:id", divingCenterController.getDivingCenter);
-router.post("/", divingCenterController.createDivingCenter);
+router.post("/", [authenticateUser, divingCenterController.createDivingCenter]);
 router
   .route("/deviseForm")
   .post([authenticateUser, divingCenterController.createDeviseForm]);

@@ -2,10 +2,21 @@ const divingCenterService = require("../services/divingCenter");
 const bookingService = require("../../booking/services/booking");
 const { sendEmailTest } = require("./email");
 const Booking = require("../../booking/models/Booking");
+const { uploadImage, deleteImage } = require("../../../utils/uploadImage");
 
 exports.getDivingCenters = async (req, res) => {
   try {
     const divingCenters = await divingCenterService.getAllDivingCenters(
+      req,
+      res
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+exports.getDivingCenterUser = async (req, res) => {
+  try {
+    const divingCenters = await divingCenterService.getAllDivingCentersOfUser(
       req,
       res
     );
@@ -30,10 +41,17 @@ exports.getDivingCenter = async (req, res) => {
 
 exports.createDivingCenter = async (req, res) => {
   try {
-    const newDivingCenter = await divingCenterService.createDivingCenter(
-      req.body
-    );
-    res.status(201).json(newDivingCenter);
+    // const newDivingCenter = await divingCenterService.createDivingCenter(
+    //   req.body
+    // );
+    console.log(req.body);
+    const image = await uploadImage(req.body.center.image);
+    const newDivingCenter = await divingCenterService.createDivingCenter({
+      ...req.body.center,
+      user: req.body.user.userId,
+      image,
+    });
+    res.status(201).json({ message: "Diving center created" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -41,13 +59,17 @@ exports.createDivingCenter = async (req, res) => {
 
 exports.updateDivingCenter = async (req, res) => {
   try {
-    const updatedDivingCenter = await divingCenterService.updateDivingCenter(
-      req.params.id,
-      req.body
+    const updatedDivingCenter = await divingCenterService.getDivingCenterById(
+      req.params.id
     );
     if (!updatedDivingCenter) {
       return res.status(404).json({ error: "Diving center not found" });
     }
+    await divingCenterService.updateDivingCenter(
+      req.body.center,
+      req.params.id,
+      updatedDivingCenter.image
+    );
     res.status(200).json(updatedDivingCenter);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -152,6 +174,11 @@ exports.createDeviseForm = async (req, res) => {
         date: formData.date,
         numberOfDivers: formData.total,
         equipments,
+        email: formData.email,
+        phone: formData.phone,
+        diversLevel1: formData.diversLevel1,
+        diversLevel2: formData.diversLevel2,
+        diversLevel3: formData.diversLevel3,
       });
       await booking.save();
     });

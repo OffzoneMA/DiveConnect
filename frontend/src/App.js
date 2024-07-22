@@ -27,8 +27,10 @@ import CustomLayout from "./components/common/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { element } from "prop-types";
 import Dashboard from "./pages/Home";
-import Centers from "./components/dashbaord/crud/Centers";
+import Centers from "./components/dashbaord/crud/Centers/Centers";
 import SharedLayer from "./components/dashbaord/crud/SharedLayer";
+import CenterEdit from "./components/dashbaord/crud/Centers/CenterEdit";
+import Bookings from "./components/dashbaord/crud/Bookings/Bookings";
 
 const router = createBrowserRouter([
   {
@@ -89,10 +91,12 @@ const router = createBrowserRouter([
     element: <SharedLayer />,
     path: "/dashboard",
     children: [
+      { element: <Centers />, path: "centers" },
       {
-        element: <Centers />,
-        path: "centers",
+        element: <CenterEdit />,
+        path: "center",
       },
+      { element: <Bookings />, path: "bookings" },
     ],
   },
   {
