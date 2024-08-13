@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const listEndpoints = require("express-list-endpoints");
 const cookieParser = require("cookie-parser");
 
-// Your routes and other middleware configurations follow here
+// routes and other middleware configurations
 const divingAssociationRoutes = require("./src/microservices/divingAssociation/routes/divingAssociation");
 const bookingRoutes = require("./src/microservices/booking/routes/booking");
 const userRoutes = require("./src/microservices/user/routes/userRouter");
