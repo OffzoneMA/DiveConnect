@@ -5,7 +5,7 @@ import { getUserFromLocalStorage } from "./localStorage";
 import { removeUserFromLocalStorage } from "./localStorage";
 import { API_URL } from "./constants";
 export const customFetch = axios.create({
-  baseURL: API_URL,
+  // baseURL: API_URL,
   withCredentials: true,
   // headers: {
   //   "Content-Type": "application/json",
@@ -70,3 +70,8 @@ export const generateAmountOptions = (number) => {
     );
   });
 };
+export function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return date.toLocaleDateString(undefined, options);
+}

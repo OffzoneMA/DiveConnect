@@ -44,7 +44,6 @@ exports.createDivingCenter = async (req, res) => {
     // const newDivingCenter = await divingCenterService.createDivingCenter(
     //   req.body
     // );
-    console.log(req.body);
     const image = await uploadImage(req.body.center.image);
     const newDivingCenter = await divingCenterService.createDivingCenter({
       ...req.body.center,
@@ -160,7 +159,6 @@ exports.deleteDivingCenterBooking = async (req, res) => {
 };
 exports.createDeviseForm = async (req, res) => {
   try {
-    console.log(req.body);
     const { materials, formData, centers, user } = req.body;
     const equipments = Object.entries(materials).map(([key, value]) => ({
       equipment: key,
@@ -179,6 +177,7 @@ exports.createDeviseForm = async (req, res) => {
         diversLevel1: formData.diversLevel1,
         diversLevel2: formData.diversLevel2,
         diversLevel3: formData.diversLevel3,
+        clientName: formData.clientName,
       });
       await booking.save();
     });

@@ -1,0 +1,9 @@
+/* src/index.css or any other CSS file */
+body {
+  font-family: "IBMPlexSans", sans-serif !important;
+}
+
+h1 {
+  font-family: "IBMPlexSans", sans-serif;
+  font-weight: bold;
+}

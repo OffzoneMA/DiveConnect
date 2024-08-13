@@ -51,7 +51,6 @@ const CustomLayout = ({ children }) => {
   const navigate = useNavigate();
   const createHandleMenuClick = (menuItem) => {
     return () => {
-      console.log(`Clicked on ${menuItem}`);
       navigate(menuItem);
     };
   };

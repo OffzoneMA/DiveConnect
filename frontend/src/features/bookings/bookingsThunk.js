@@ -5,7 +5,6 @@ export const getAllBookingsOfUserThunk = async (_, thunkAPI) => {
   let url = api + "/bookings/user";
   try {
     const { data } = await customFetch.get(url);
-    console.log("data", data);
     // const { data } = await axios.get(url);
     // thunkAPI.dispatch(clearFilters());
     return data;

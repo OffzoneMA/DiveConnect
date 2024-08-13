@@ -68,7 +68,6 @@ class DivingCenterService {
     return updatedDivingCenter;
   }
   async getAllDivingCentersOfUser(req, res, userId) {
-    console.log(req, res);
     if (!req && !res) {
       const divingCenters = await divingCenterModel.find({ user: userId });
       return divingCenters;

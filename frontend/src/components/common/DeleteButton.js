@@ -17,7 +17,7 @@ const Wrapper = styled.div`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: rgb(20, 20, 20);
+    background-color: grey;
     border: none;
     font-weight: 600;
     display: flex;

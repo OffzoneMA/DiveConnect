@@ -2,7 +2,6 @@ import { customFetch, api } from "../../utils/index";
 // import { clearFilters } from "./divingCentersSlice";
 import axios from "axios";
 export const getAllDivingCentersThunk = async (_, thunkAPI) => {
-  console.log("inside thunk");
   let url = api + "/diving-centers";
   const urlParams = new URLSearchParams(window.location.search);
   const search = urlParams.get("city");
@@ -13,7 +12,6 @@ export const getAllDivingCentersThunk = async (_, thunkAPI) => {
   }
   // getting page from the url
   const page = urlParams.get("page");
-  console.log(url);
   if (page) {
     url += `&page=${page}`;
   } else {
@@ -30,7 +28,6 @@ export const getAllDivingCentersThunk = async (_, thunkAPI) => {
   }
 };
 export const getAllDivingCentersOfUserThunk = async (_, thunkAPI) => {
-  console.log("inside thunk");
   let url = api + "/diving-centers/user";
   const urlParams = new URLSearchParams(window.location.search);
   const search = urlParams.get("city");
@@ -41,7 +38,6 @@ export const getAllDivingCentersOfUserThunk = async (_, thunkAPI) => {
   }
   // getting page from the url
   const page = urlParams.get("page");
-  console.log(url);
   if (page) {
     url += `&page=${page}`;
   } else {

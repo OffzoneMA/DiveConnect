@@ -20,38 +20,26 @@ exports.getAllBookings = async (req, res) => {
 exports.getAllBookingsOfUser = async (req, res) => {
   try {
     const userId = req.body.user.userId;
-    const { page = 1, limit = 10, sort = "latest" } = req.query; // Default values for pagination and sorting
-
     const centers = await divingCenterService.getAllDivingCentersOfUser(
       null,
       null,
       userId
     );
-    console.log(centers);
-
     let bookingsPromises = centers.map(async (center) => {
-      // Adjust the method to accept and handle pagination and sorting parameters
-      const centerBookings = await bookingService.getAllBookingsOfCenter({
-        centerId: center._id,
-        page,
-        limit,
-        sort,
-      });
-
       return {
         center: center,
-        centerBooking: centerBookings,
+        centerBooking: await bookingService.getAllBookingsOfCenter({
+          centerId: center._id,
+        }),
       };
     });
-
     let bookings = await Promise.all(bookingsPromises);
-    console.log(bookings);
-
     res.status(200).json(bookings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 exports.getBookingById = async (req, res) => {
   try {
     const booking = await bookingService.getBookingById(req.params.id);

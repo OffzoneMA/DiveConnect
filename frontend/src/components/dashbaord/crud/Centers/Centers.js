@@ -58,7 +58,6 @@ const Centers = () => {
     newDivingCenters = newDivingCenters.map((center) => {
       return { ...center, selected: checked };
     });
-    console.log(checked);
     dispatch(handleChange({ name: "divingCenters", value: newDivingCenters }));
   };
 

@@ -116,7 +116,6 @@ const PromotionsSection = () => {
         <Button
           component={Link}
           onClick={() => {
-            console.log("divingCenters", divingCenters);
             if (!divingCenters.find((center) => center.selected)) {
               alert("Veuillez sélectionner un centre de plongée ou plus");
               return;

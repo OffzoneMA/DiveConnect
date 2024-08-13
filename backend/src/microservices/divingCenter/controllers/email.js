@@ -82,7 +82,6 @@ exports.sendEmailTest = async (center, formData) => {
 exports.sendEmailProduction = async (req, res) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
   const formData = req.body;
-  console.log(req.body);
   let emailContent = `
 <!DOCTYPE html>
 <html>

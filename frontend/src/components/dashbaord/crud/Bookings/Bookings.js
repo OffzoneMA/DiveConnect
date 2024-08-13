@@ -23,6 +23,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import DivingSearchBar from "../../DivingSearchBar";
+import { getAllEquipments } from "../../../../features/equipments/equipmentsSlice";
 const useStyles = makeStyles(() => ({
   paper: {
     padding: "20px",
@@ -46,6 +47,7 @@ const Bookings = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllBookingsOfUser());
+    dispatch(getAllEquipments());
   }, []);
   const classes = useStyles();
   // const { divingCenters, isLoading, page, numOfPages } = useSelector(
@@ -101,16 +103,19 @@ const Bookings = () => {
       </div>
       <br />
       <Grid container spacing={2} className={classes.tripContainer}>
-        {bookings.map((center) => {
-          return (
-            <Grid item xs={12} sm={12} md={12} key={center._id}>
-              <BookingCard
-                checkedAll={checkedAll}
-                // handleSelect={handleSelect}
-                trip={center}
-              />
-            </Grid>
-          );
+        {bookings.map((booking) => {
+          return booking.centerBooking.map((bookingElement) => {
+            return (
+              <Grid item xs={12} sm={12} md={12} key={bookingElement._id}>
+                <BookingCard
+                  checkedAll={checkedAll}
+                  // handleSelect={handleSelect}
+                  bookingElement={bookingElement}
+                  center={booking.center}
+                />
+              </Grid>
+            );
+          });
         })}
       </Grid>
 

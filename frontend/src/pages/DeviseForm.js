@@ -47,6 +47,7 @@ function DeviseForm() {
       navigate("/diving-center/list");
     }
   }, []);
+  const [materialsChecked, setMaterialsChecked] = useState(false);
   const [diversLevel1, setDiversLevel1] = useState(1);
   const [diversLevel2, setDiversLevel2] = useState(1);
   const [diversLevel3, setDiversLevel3] = useState(1);
@@ -60,14 +61,14 @@ function DeviseForm() {
   async function sendMail(e) {
     e.preventDefault();
 
-    const name = document.getElementById("name").value;
+    const clientName = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
     const divesNum = document.getElementById("divesNum").value;
 
     const form = {
       formData: {
-        name,
+        clientName,
         email,
         phone,
         divesNum,
@@ -77,7 +78,7 @@ function DeviseForm() {
         total,
         date,
       },
-      materials: materialQuantities,
+      materials: materialsChecked ? materialQuantities : [],
       centers: divingCenters.filter((center) => center.selected),
       user,
     };
@@ -124,6 +125,7 @@ function DeviseForm() {
         : span.offsetHeight
     }px`;
     e.classList.toggle("open");
+    setMaterialsChecked(!materialsChecked);
   };
 
   useEffect(() => {

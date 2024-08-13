@@ -72,6 +72,7 @@ const Login = () => {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
+          sx={{ mb: 2 }}
           variant="outlined"
           label="Email"
           type="email"
@@ -81,6 +82,7 @@ const Login = () => {
           required
         />
         <TextField
+          sx={{ mb: 2 }}
           variant="outlined"
           label="Password"
           type="password"
@@ -113,7 +115,7 @@ const Login = () => {
           Login with Google
         </Button>
       </div>
-      <Typography variant="body2" align="center" gutterBottom>
+      <Typography sx={{ mt: 2 }} variant="body2" align="center" gutterBottom>
         Don't have an account? <Link to="/register">Register here</Link>
       </Typography>
     </div>

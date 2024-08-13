@@ -38,8 +38,8 @@ const Register = ({ setShowRegister }) => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    event.preventDefault();
     dispatch(registerUser({ name, email, password }));
+    navigate("/login");
   };
 
   return (
@@ -49,6 +49,7 @@ const Register = ({ setShowRegister }) => {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
+          sx={{ mb: 2 }}
           variant="outlined"
           label="Name"
           value={name}
@@ -57,6 +58,7 @@ const Register = ({ setShowRegister }) => {
           required
         />
         <TextField
+          sx={{ mb: 2 }}
           variant="outlined"
           label="Email"
           type="email"
@@ -66,6 +68,7 @@ const Register = ({ setShowRegister }) => {
           required
         />
         <TextField
+          sx={{ mb: 2 }}
           variant="outlined"
           label="Password"
           type="password"
@@ -79,7 +82,13 @@ const Register = ({ setShowRegister }) => {
             {error}
           </Typography>
         )}
-        <Button variant="contained" color="primary" type="submit" fullWidth>
+        <Button
+          variant="contained"
+          sx={{ mb: 2 }}
+          color="primary"
+          type="submit"
+          fullWidth
+        >
           Register
         </Button>
       </form>

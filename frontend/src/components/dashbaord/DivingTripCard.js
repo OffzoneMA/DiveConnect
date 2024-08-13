@@ -48,7 +48,6 @@ const DivingTripCard = ({ trip, handleSelect }) => {
   const handleChange = (event, id) => {
     handleSelect(event.target.checked, id);
   };
-  // console.log(tripData);
   return (
     <Card sx={{ display: "flex", padding: "0 2rem" }}>
       <FormControlLabel
