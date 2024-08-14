@@ -1,4 +1,7 @@
 import * as React from "react";
+// import "primeicons/primeicons.css"; //icons
+import "primeflex/primeflex.css"; // flex
+import "primereact/resources/primereact.css"; //core css
 import {
   BrowserRouter,
   Route,
@@ -31,6 +34,7 @@ import Centers from "./components/dashbaord/crud/Centers/Centers";
 import SharedLayer from "./components/dashbaord/crud/SharedLayer";
 import CenterEdit from "./components/dashbaord/crud/Centers/CenterEdit";
 import Bookings from "./components/dashbaord/crud/Bookings/Bookings";
+import ContactUs from "./pages/ContactUs";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +48,10 @@ const router = createBrowserRouter([
       {
         element: <DivingCenterList />,
         path: "/diving-center/list",
+      },
+      {
+        element: <ContactUs />,
+        path: "/contact-us",
       },
       {
         element: <DivingCenterNew />,

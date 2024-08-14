@@ -12,6 +12,8 @@ const bookingRoutes = require("./src/microservices/booking/routes/booking");
 const userRoutes = require("./src/microservices/user/routes/userRouter");
 const divingCenterRoutes = require("./src/microservices/divingCenter/routes/divingCenter");
 const equipmentRoutes = require("./src/microservices/divingCenter/routes/equipment");
+const data = require("./src/utils/data");
+const DivingCenter = require("./src/microservices/divingCenter/models/DivingCenter");
 
 dotenv.config();
 
@@ -50,6 +52,18 @@ mongoose.connection.on(
 );
 mongoose.connection.once("open", () => {
   console.log("Connected to database");
+  // data.map((item) => {
+  //   const newItem = {
+  //     ...item,
+  //     _id: item._id.$oid,
+  //     country: "france",
+  //     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  //     city: item.town,
+  //   };
+  //   const divingCenter = new DivingCenter(newItem);
+  //   console.log(divingCenter);
+  //   divingCenter.save();
+  // });
 });
 // Start server
 const port = process.env.PORT || 5000;

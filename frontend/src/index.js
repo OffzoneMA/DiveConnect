@@ -6,6 +6,8 @@ import { ThemeProvider, CssBaseline } from "@mui/material"; // Import CssBaselin
 import theme from "./style/theme";
 import { store } from "./store.js";
 import { Provider } from "react-redux";
+import { PrimeReactProvider } from "primereact/api";
+
 import "./fonts.css";
 import "./style.css";
 ReactDOM.render(
@@ -13,7 +15,9 @@ ReactDOM.render(
     <ThemeProvider theme={theme}>
       <CssBaseline /> {/* Apply global styles */}
       <Provider store={store}>
-        <App />
+        <PrimeReactProvider>
+          <App />
+        </PrimeReactProvider>
       </Provider>
     </ThemeProvider>
   </React.StrictMode>,

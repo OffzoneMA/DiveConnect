@@ -1,9 +1,21 @@
+import * as React from "react";
 import PropTypes from "prop-types";
-import { makeStyles } from "@mui/styles";
 import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { makeStyles } from "@mui/styles";
+
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -13,26 +25,34 @@ import ContactSection from "../dashbaord/ContactSection";
 import Footer from "./footer";
 import ProtectedRoute from "../ProtectedRoute";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import * as React from "react";
 import { Dropdown } from "@mui/base/Dropdown";
 import { Menu } from "@mui/base/Menu";
-import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
-import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
+import { MenuButton } from "@mui/base/MenuButton";
 import { styled } from "@mui/system";
 import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
+import { MenuItem, menuItemClasses } from "@mui/base/MenuItem";
+import { CiLock } from "react-icons/ci";
+const drawerWidth = 240;
+const navItems = ["Home", "About", "Contact"];
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  title: {
+
+  navLinks: {
     flexGrow: 1,
     marginLeft: theme.spacing(2),
     textDecoration: "none", // Remove underline from link
     color: "inherit", // Inherit color from parent
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "0rem",
   },
   toolbar: {
-    justifyContent: "space-between", // Align items to the start and end of the toolbar
+    display: "flex",
+    justifyContent: "space-between",
     margin: "0 ",
   },
   button: {
@@ -41,8 +61,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomLayout = ({ children }) => {
+function CustomLayout(props) {
   const classes = useStyles();
+
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
+  };
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+      <Typography variant="h6" sx={{ my: 2 }}>
+        MUI
+      </Typography>
+      <Divider />
+      <List>
+        {navItems.map((item) => (
+          <ListItem key={item} disablePadding>
+            <ListItemButton sx={{ textAlign: "center" }}>
+              <ListItemText primary={item} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
+
   const { user } = useSelector((store) => store.userState);
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -55,17 +104,65 @@ const CustomLayout = ({ children }) => {
     };
   };
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar className={classes.toolbar}>
+    <Box>
+      <AppBar
+        component="nav"
+        className="bg-transparent shadow-none bg-gray-700"
+      >
+        <Toolbar className="flex justify-between items-center h-24 container mx-auto px-6 ">
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2 }}
+            className="block sm:hidden"
+          >
+            <MenuIcon />
+          </IconButton>
+
           <Typography
             variant="h6"
             component={Link}
             to="/"
-            className={classes.title}
+            className="hidden sm:block "
           >
             DiveConnect
           </Typography>
+          <div className="sm:flex justify-between items-center gap-10 hidden">
+            <Typography
+              component={Link}
+              to="/"
+              className="text-white"
+              // sx={{ fontSize: "1.25rem" }}
+            >
+              Home
+            </Typography>
+            <Typography
+              component={Link}
+              to="/"
+              className="text-white"
+              // sx={{ fontSize: "1.25rem" }}
+            >
+              Diving Centers
+            </Typography>
+            <Typography
+              component={Link}
+              to="/contact-us"
+              className="text-white"
+              // sx={{ fontSize: "1.25rem" }}
+            >
+              Contact Us
+            </Typography>
+            <Typography
+              component={Link}
+              to="/"
+              className="text-white"
+              // sx={{ fontSize: "1.25rem" }}
+            >
+              Requests
+            </Typography>
+          </div>
           {user ? (
             <>
               {/* <p>{user.name}</p>
@@ -112,30 +209,64 @@ const CustomLayout = ({ children }) => {
               <Button
                 component={Link}
                 to="/login"
-                className={classes.button}
+                className=" flex items-center gap-2"
                 color="inherit"
               >
-                Login
+                <img
+                  src="/image/lock.svg"
+                  className="-translate-y-0.5"
+                  alt=""
+                />
+                <div className="capitalize text-lg">Login</div>
               </Button>
-              <Button
+              {/* <Button
                 component={Link}
                 to="/register"
                 className={classes.button}
                 color="inherit"
               >
                 Register
-              </Button>
+              </Button> */}
             </div>
           )}
         </Toolbar>
       </AppBar>
+      <nav>
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </nav>
       <Outlet />
-      <ContactSection />
+      {/* <ContactSection /> */}
       <Footer />
-    </div>
+    </Box>
   );
+}
+
+CustomLayout.propTypes = {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window: PropTypes.func,
 };
 
+export default CustomLayout;
 const blue = {
   50: "#F0F7FF",
   100: "#C2E0FF",
@@ -186,7 +317,7 @@ const Listbox = styled("ul")(
     transform: scale(0.95, 0.8);
     transition: opacity 200ms ease-in, transform 200ms ease-in;
   }
-  
+
   .open & {
     opacity: 1;
     transform: scale(1, 1);
@@ -229,67 +360,3 @@ const AnimatedListbox = React.forwardRef(function AnimatedListbox(props, ref) {
 AnimatedListbox.propTypes = {
   ownerState: PropTypes.object.isRequired,
 };
-
-const MenuItem = styled(BaseMenuItem)(
-  ({ theme }) => `
-  list-style: none;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: default;
-  user-select: none;
-
-  &:last-of-type {
-    border-bottom: none;
-  }
-
-  &.${menuItemClasses.focusVisible} {
-    outline: 3px solid ${theme.palette.mode === "dark" ? blue[600] : blue[200]};
-    background-color: ${theme.palette.mode === "dark" ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  }
-
-  &.${menuItemClasses.disabled} {
-    color: ${theme.palette.mode === "dark" ? grey[700] : grey[400]};
-  }
-
-  &:hover:not(.${menuItemClasses.disabled}) {
-    background-color: ${theme.palette.mode === "dark" ? blue[900] : blue[50]};
-    color: ${theme.palette.mode === "dark" ? blue[100] : blue[900]};
-  }
-  `
-);
-
-const MenuButton = styled(BaseMenuButton)(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  transition: all 150ms ease;
-  cursor: pointer;
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === "dark" ? grey[200] : grey[900]};
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-
-  &:hover {
-    background: ${theme.palette.mode === "dark" ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === "dark" ? grey[600] : grey[300]};
-  }
-
-  &:active {
-    background: ${theme.palette.mode === "dark" ? grey[700] : grey[100]};
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 4px ${
-      theme.palette.mode === "dark" ? blue[300] : blue[200]
-    };
-    outline: none;
-  }
-  `
-);
-export default CustomLayout;

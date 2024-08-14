@@ -1,9 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* @layer base {
+  @font-face {
+    font-family: "DM Sans";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(/fonts/Roboto.woff2) format("woff2");
+  }
+} */
 /* src/index.css or any other CSS file */
 body {
-  font-family: "IBMPlexSans", sans-serif !important;
+  font-feature-settings: "liga" off, "clig" off;
+  font-family: "DM Sans" !important;
+  font-weight: 400;
 }
-
-h1 {
-  font-family: "IBMPlexSans", sans-serif;
-  font-weight: bold;
+img {
+  width: 100%;
+  /* cover */
+  object-fit: cover;
+}
+* {
+  /* border: red 1px solid; */
 }
