@@ -140,7 +140,7 @@ function CustomLayout(props) {
             </Typography>
             <Typography
               component={Link}
-              to="/"
+              to="/diving-center/list"
               className="text-white"
               // sx={{ fontSize: "1.25rem" }}
             >
