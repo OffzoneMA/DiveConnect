@@ -6,6 +6,8 @@ import { removeUserFromLocalStorage } from "./localStorage";
 import { API_URL } from "./constants";
 export const customFetch = axios.create({
   // baseURL: API_URL,
+
+  baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
   // headers: {
   //   "Content-Type": "application/json",
