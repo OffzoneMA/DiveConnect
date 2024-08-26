@@ -55,6 +55,7 @@ const divingCentersSlice = createSlice({
           state[name] = [...value];
         } else {
           state[name] = value;
+          console.log(state[name]);
         }
       } else {
         state.singleProduct[name] = value;

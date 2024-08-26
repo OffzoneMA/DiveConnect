@@ -121,7 +121,7 @@ const DivingCenterList = () => {
     { name: "Research", key: "Rb" },
   ];
 
-  const [selectedCategories, setSelectedCategories] = useState([categories[1]]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   const onCategoryChange = (category) => {
     let _selectedCategories = [...selectedCategories];
@@ -168,6 +168,7 @@ const DivingCenterList = () => {
     <>
       {/* <BackgroundSection />
       <PromotionsSection /> */}
+
       <section className="bg-gray-700 mt-4">
         <div className="container mx-auto px-3 sm:px-6 sm:py-20 ">
           <div className="flex gap-6">

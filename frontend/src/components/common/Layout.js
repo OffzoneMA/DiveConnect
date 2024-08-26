@@ -33,36 +33,14 @@ import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
 import { MenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { CiLock } from "react-icons/ci";
+import { useLocation } from "react-router-dom";
+
 const drawerWidth = 240;
 const navItems = ["Home", "About", "Contact"];
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-
-  navLinks: {
-    flexGrow: 1,
-    marginLeft: theme.spacing(2),
-    textDecoration: "none", // Remove underline from link
-    color: "inherit", // Inherit color from parent
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "0rem",
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "0 ",
-  },
-  button: {
-    marginLeft: theme.spacing(2),
-    textTransform: "none", // Preserve button text case
-  },
-}));
 
 function CustomLayout(props) {
-  const classes = useStyles();
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -107,7 +85,7 @@ function CustomLayout(props) {
     <section className="w-full">
       <AppBar
         component="nav"
-        className="bg-transparent shadow-none bg-gray-700"
+        className={` shadow-none ${isHome ? "bg-transparent" : "bg-gray-700"}`}
       >
         <Toolbar className="flex justify-between items-center h-24 container mx-auto px-6 ">
           <IconButton

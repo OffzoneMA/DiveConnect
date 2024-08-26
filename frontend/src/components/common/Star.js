@@ -8,6 +8,7 @@ function Star() {
       height="16"
       viewBox="0 0 20 16"
       fill="none"
+      className="block sm:hidden"
     >
       <g clip-path="url(#clip0_548_4069)">
         <path

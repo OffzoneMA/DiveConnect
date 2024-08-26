@@ -29,7 +29,6 @@ import DeviseForm from "./pages/DeviseForm";
 import CustomLayout from "./components/common/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { element } from "prop-types";
-import Dashboard from "./pages/Home";
 import Centers from "./components/dashbaord/crud/Centers/Centers";
 import SharedLayer from "./components/dashbaord/crud/SharedLayer";
 import CenterEdit from "./components/dashbaord/crud/Centers/CenterEdit";
