@@ -1,5 +1,5 @@
 import * as React from "react";
-// import "primeicons/primeicons.css"; //icons
+import "primeicons/primeicons.css"; //icons
 import "primeflex/primeflex.css"; // flex
 import "primereact/resources/primereact.css"; //core css
 import {

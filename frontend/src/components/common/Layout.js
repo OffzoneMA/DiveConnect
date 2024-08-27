@@ -36,7 +36,12 @@ import { CiLock } from "react-icons/ci";
 import { useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
-const navItems = ["Home", "About", "Contact"];
+const navItems = [
+  { name: "Home", lien: "" },
+  { name: "Diving Centers", lien: "diving-center/list" },
+  { name: "Contact Us", lien: "contact-us" },
+  { name: "Requests", lien: "" },
+];
 
 function CustomLayout(props) {
   const location = useLocation();
@@ -52,14 +57,18 @@ function CustomLayout(props) {
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
+        Logo
       </Typography>
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText primary={item} />
+          <ListItem key={item.name} disablePadding>
+            <ListItemButton
+              component={Link}
+              to={`/${item.lien}`}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -108,38 +117,16 @@ function CustomLayout(props) {
             DiveConnect
           </Typography>
           <div className="sm:flex justify-between items-center gap-10 hidden">
-            <Typography
-              component={Link}
-              to="/"
-              className="text-white"
-              // sx={{ fontSize: "1.25rem" }}
-            >
-              Home
-            </Typography>
-            <Typography
-              component={Link}
-              to="/diving-center/list"
-              className="text-white"
-              // sx={{ fontSize: "1.25rem" }}
-            >
-              Diving Centers
-            </Typography>
-            <Typography
-              component={Link}
-              to="/contact-us"
-              className="text-white"
-              // sx={{ fontSize: "1.25rem" }}
-            >
-              Contact Us
-            </Typography>
-            <Typography
-              component={Link}
-              to="/"
-              className="text-white"
-              // sx={{ fontSize: "1.25rem" }}
-            >
-              Requests
-            </Typography>
+            {navItems.map((item) => (
+              <Typography
+                component={Link}
+                to={item.lien}
+                className="text-white"
+                // sx={{ fontSize: "1.25rem" }}
+              >
+                {item.name}
+              </Typography>
+            ))}
           </div>
           {user ? (
             <>

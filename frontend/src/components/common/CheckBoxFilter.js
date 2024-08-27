@@ -2,7 +2,7 @@ import React from "react";
 import { Checkbox } from "primereact/checkbox";
 function CheckBoxFilter({ items, onItemsChange, selectedItems, title }) {
   return (
-    <div className="flex flex-col border gap-3 border-[#ADABC3] bg-white px-4 py-5">
+    <div className="flex flex-col border-b-[1px] gap-3 border-[#ADABC3] bg-white px-4 py-5">
       <p>{title}</p>
       <div className="card flex">
         <div className="flex flex-column gap-3">

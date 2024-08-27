@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 function footer() {
   return (
-    <section className=" bg-gray-700 ">
+    <section className="pt-4 sm:pt-0 bg-gray-700 ">
       <div className="container mx-auto sm:px-6 sm:py-20">
         <div className="flex flex-col gap-4 sm:gap-0 sm:flex-row mb-14 text-[#F9F9FF] sm:px-24 items-center justify-between">
           <h2 className="sm:mb-0">LOGO</h2>

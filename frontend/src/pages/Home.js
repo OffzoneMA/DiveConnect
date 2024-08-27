@@ -15,6 +15,7 @@ import {
 } from "../features/divingCenters/divingCentersSlice.js";
 
 import { AutoComplete } from "primereact/autocomplete";
+import DateInput from "../components/common/DateInput.js";
 function Home() {
   const townsOfFrance = [
     { name: "Paris", code: "PAR" },
@@ -81,24 +82,17 @@ function Home() {
       className="h-screen object-cover bg-center bg-no-repeat bg-cover relative z-0"
     >
       <div class="absolute inset-0 bg-black bg-opacity-30 -z-10 "></div>
-      <h1 className="text-[rgba(255,255,255,0.41)] text-center text-[9.375rem] font-bold leading-[5.875rem] pt-[14.2rem] z-10">
+      <h1 className="text-[rgba(255,255,255,0.41)] text-center text-[5.5rem] sm:text-[9.375rem] font-bold leading-[5.875rem] pt-[10rem] sm:pt-[14.2rem] z-10">
         Discover
       </h1>
-      <h2 className="text-[#FAFAFF] m-0 mt-2 text-[3.5rem] font-bold leading-[4.125rem] text-center z-10">
+      <h2 className="text-[#FAFAFF] m-0 mt-2 text-4xl sm:text-[3.5rem] font-bold leading-[4.125rem] text-center z-10">
         Best Diving Adventures
       </h2>
-      <p className="text-[1.375rem] my-3 font-bold leading-7 text-[#FAFAFF] text-center">
+      <p className="text-lg px-10 text-left sm:px-0 sm:text-[1.375rem] my-3 font-bold leading-6 sm:leading-7 text-[#FAFAFF] sm:text-center">
         Find dive trips, rental equipment, and dive centers all in one place.
       </p>
-      <div className="flex mt-4  justify-between items-center w-[45%] p-2 rounded-lg bg-white m-auto">
-        {/* <input
-          type="text"
-          placeholder="Where do you want to dive?"
-          name=""
-          id=""
-          className="text-base leading-5 w-[50%] focus:outline-none"
-        /> */}
-        <div className="card flex justify-content-center">
+      <div className="mt-4 hidden sm:flex  justify-between items-center w-[45%] p-2 rounded-lg bg-white m-auto">
+        <div className="card w-2/3 p-fluid">
           <AutoComplete
             field="name"
             value={selectedCountry}
@@ -125,6 +119,42 @@ function Home() {
             <img className="h-5 w-[1.25rem]" src="/image/search.svg" alt="" />
           </button>
         </div>
+      </div>
+      <div className="flex sm:hidden flex-col gap-3 px-4">
+        <div className="card p-fluid p-2 w-full rounded-lg bg-white">
+          <AutoComplete
+            field="name"
+            value={selectedCountry}
+            suggestions={filteredCountries}
+            completeMethod={searchItem}
+            onChange={(e) => setSelectedCountry(e.value)}
+            placeholder="Where do you want to dive?"
+            width={"100%"}
+          />
+        </div>
+        <div className="flex gap-2">
+          <DateInput></DateInput>
+          <div className="card p-fluid p-2 rounded-lg bg-white flex items-center ">
+            <AutoComplete
+              field="name"
+              value={selectedCountry}
+              suggestions={filteredCountries}
+              completeMethod={searchItem}
+              onChange={(e) => setSelectedCountry(e.value)}
+              placeholder="Name of Center"
+              className=""
+            />
+          </div>
+        </div>
+        <button
+          onClick={handleSearch}
+          className="flex p-2 gap-1 items-center rounded-lg bg-[#4E9FFF] cursor-pointer justify-center"
+        >
+          <span className="font-bold text-base leading-5  text-white">
+            Search
+          </span>
+          <img className="h-5 w-[1.25rem]" src="/image/search.svg" alt="" />
+        </button>
       </div>
     </div>
   );
