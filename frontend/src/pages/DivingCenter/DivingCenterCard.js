@@ -41,11 +41,11 @@ function DivingCenterCard({ center, onCenterChange, selectedCenters }) {
         <p className="sm:text-sm text-[0.8rem] text-[#374151] w-full sm:w-3/4">
           {center.description}
         </p>
-        <div key={center.key} className="mt-4 flex items-center ">
+        <div key={center._id} className="mt-4 flex items-center ">
           <button
-            key={center.key}
+            key={center._id}
             className={`${
-              selectedCenters.some((item) => item.key === center.key) ||
+              selectedCenters.some((item) => item._id === center._id) ||
               center.selected
                 ? "bg-[#4A3AFF]"
                 : "bg-[#D4D2E3] "
