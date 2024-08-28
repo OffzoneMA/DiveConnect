@@ -5,6 +5,7 @@ import {
   getAllDivingCentersOfUserThunk,
   getAllDivingCentersThunk,
   updateDivingCenterThunk,
+  getAllCenterCitiesThunk,
 } from "./divingCentersThunk";
 
 const initialFilters = {
@@ -26,6 +27,10 @@ const initialState = {
 export const getAllDivingCenters = createAsyncThunk(
   "/diving-centers/list",
   getAllDivingCentersThunk
+);
+export const getAllCenterCities = createAsyncThunk(
+  "/diving-centers/cities",
+  getAllCenterCitiesThunk
 );
 export const getAllDivingCentersOfUser = createAsyncThunk(
   "/diving-centers/user",
@@ -137,6 +142,16 @@ const divingCentersSlice = createSlice({
       state.isLoading = false;
     },
     [deleteDivingCenter.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+    },
+    [getAllCenterCities.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getAllCenterCities.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.citiesOption = payload;
+    },
+    [getAllCenterCities.rejected]: (state, { payload }) => {
       state.isLoading = false;
     },
   },

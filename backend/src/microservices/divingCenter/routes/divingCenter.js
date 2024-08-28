@@ -8,6 +8,7 @@ router.get("/user", [
   authenticateUser,
   divingCenterController.getDivingCenterUser,
 ]);
+router.get("/cities", divingCenterController.getCities);
 
 router.get("/:id", divingCenterController.getDivingCenter);
 router.post("/", [authenticateUser, divingCenterController.createDivingCenter]);

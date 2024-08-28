@@ -27,27 +27,29 @@ import CancelFilterButton from "../../components/common/CancelFilterButton.js";
 import ModalFilters from "../../components/common/ModalFilters.js";
 import Filters from "../../components/common/Filters.js";
 const DivingCenterList = () => {
-  // diving centers:
-  const categories = [
-    { name: "Accounting", key: "Ab" },
-    { name: "Marketing", key: "Mb" },
-    { name: "Production", key: "Pb" },
-    { name: "Research", key: "Rb" },
-  ];
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllDivingCenters());
+  }, []);
+  const {
+    divingCenters,
+    search: searchItems,
+    totalDivingCenters,
+  } = useSelector((store) => store.divingCentersState);
 
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedDivingCenters, setSelectedDivingCenters] = useState([]);
 
-  const onCategoryChange = (category) => {
-    let _selectedCategories = [...selectedCategories];
+  const onDivingCenterChange = (divingCenter) => {
+    let _selectedDivingCenters = [...selectedDivingCenters];
 
-    if (_selectedCategories.some((cat) => cat.key === category.key)) {
-      _selectedCategories = _selectedCategories.filter(
-        (cat) => cat.key !== category.key
+    if (_selectedDivingCenters.some((cat) => cat._id === divingCenter._id)) {
+      _selectedDivingCenters = _selectedDivingCenters.filter(
+        (cat) => cat._id !== divingCenter._id
       );
     } else {
-      _selectedCategories.push(category);
+      _selectedDivingCenters.push(divingCenter);
     }
-    setSelectedCategories(_selectedCategories);
+    setSelectedDivingCenters(_selectedDivingCenters);
     // let newDivingCenters = [...divingCenters];
     // newDivingCenters = newDivingCenters.map((center) => {
     //   return { ...center, selected: checked };
@@ -60,9 +62,9 @@ const DivingCenterList = () => {
   const [isSelectedAll, setIsSelectedAll] = useState(false);
   const selectAllCenters = () => {
     if (isSelectedAll) {
-      setSelectedCategories([]);
+      setSelectedDivingCenters([]);
     } else {
-      setSelectedCategories(categories);
+      setSelectedDivingCenters(divingCenters);
     }
     setIsSelectedAll(!isSelectedAll);
   };
@@ -70,7 +72,6 @@ const DivingCenterList = () => {
   const { search, pathname } = useLocation();
   const { page, numOfPages } = useSelector((store) => store.divingCentersState);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const handleChangePagination = (e, value) => {
     const searchParams = new URLSearchParams(search);
     searchParams.set("page", value);
@@ -91,10 +92,13 @@ const DivingCenterList = () => {
             </div>
             <div className="flex flex-col gap-10  flex-[1_1_0] ">
               <p className="font-medium text-xl hidden sm:block  -mb-3  text-white">
-                20 Australia Diving Center August 2024
+                {totalDivingCenters} Australia Diving Center August 2024
               </p>
               <div className="flex  gap-2">
-                <CancelFilterButton title={"Australia"} />
+                {Object.entries(searchItems).map(
+                  ([key, value]) =>
+                    value && <CancelFilterButton key={key} title={value} />
+                )}
                 <CancelFilterButton title={"august"} />
                 <CancelFilterButton title={"$ 0 - $ 1,100"} />
                 <CancelFilterButton title={"Aircon Cabins"} />
@@ -139,11 +143,11 @@ const DivingCenterList = () => {
                 </button>
               </div>
               <div className="flex flex-col  rounded-sm bg-[#E3EFFF]">
-                {categories.map((category) => (
+                {divingCenters.map((divingCenter) => (
                   <DivingCenterCard
-                    center={category}
-                    onCenterChange={onCategoryChange}
-                    selectedCenters={selectedCategories}
+                    center={divingCenter}
+                    onCenterChange={onDivingCenterChange}
+                    selectedCenters={selectedDivingCenters}
                   ></DivingCenterCard>
                 ))}
               </div>
@@ -154,6 +158,7 @@ const DivingCenterList = () => {
                     color="primary"
                     page={page}
                     onChange={handleChangePagination}
+                    shape="rounded"
                   />
                 </Stack>
               </div>

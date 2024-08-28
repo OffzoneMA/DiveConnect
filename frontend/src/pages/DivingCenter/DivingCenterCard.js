@@ -7,11 +7,15 @@ function DivingCenterCard({ center, onCenterChange, selectedCenters }) {
 
   return (
     <div className="flex bg-white m-3 sm:m-4">
-      <img className=" w-1/3 sm:w-80" src="/image/underwater.jpg" alt="" />
+      <img
+        className=" w-1/3 sm:w-80"
+        src={center.image || "/image/underwater.jpg"}
+        alt=""
+      />
       <div className="flex flex-col gap-1 px-1 py-4 sm:p-4">
         <div className="flex justify-between w-12">
           <p className="text-[#0065B8] text-[1.375rem] leading-9 text-lg">
-            Spoilsport Club
+            {center.name}
           </p>
           <p className="hidden sm:block text-gray-700 text-base  leading-[1.6rem]">
             from $ <span className="text-2xl leading-8">339</span>
@@ -21,7 +25,7 @@ function DivingCenterCard({ center, onCenterChange, selectedCenters }) {
         <div className="flex gap-2 mb-3">
           <Ratting></Ratting>
           <Star></Star>
-          <p className="text-sm">9.3</p>
+          <p className="text-sm sm:hidden">9.3</p>
           <p className="text-[#6B7280] text-sm">181 reviews</p>
         </div>
         <div className="flex items-center gap-1 ">
@@ -35,8 +39,7 @@ function DivingCenterCard({ center, onCenterChange, selectedCenters }) {
           </p>
         </div>
         <p className="sm:text-sm text-[0.8rem] text-[#374151] w-full sm:w-3/4">
-          The award-winning Spoilsport yacht offers year-round diving to some of
-          the best dive sites of the outer Great Barrier Reef and the Coral Sea.
+          {center.description}
         </p>
         <div key={center.key} className="mt-4 flex items-center ">
           <button

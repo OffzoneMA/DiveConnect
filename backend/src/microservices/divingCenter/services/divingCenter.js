@@ -51,6 +51,28 @@ class DivingCenterService {
     await newDivingCenter.save();
     return newDivingCenter;
   }
+  async getAllCentersCities(req, res) {
+    try {
+      const centers = await divingCenterModel.aggregate([
+        {
+          $group: {
+            _id: { city: "$city", country: "$country" },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            name: { $concat: ["$_id.city", ",", "$_id.country"] },
+            code: { $concat: ["$_id.city", ",", "$_id.country"] },
+          },
+        },
+      ]);
+
+      res.status(200).json(centers);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
 
   async updateDivingCenter(center, id, oldImage) {
     let image = null;

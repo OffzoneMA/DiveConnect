@@ -90,3 +90,15 @@ export const deleteDivingCenterThunk = async (id, thunkAPI) => {
     return thunkAPI.rejectWithValue(error.response.data);
   }
 };
+export const getAllCenterCitiesThunk = async (_, thunkAPI) => {
+  const url = api + "/diving-centers/cities";
+  try {
+    const { data } = await customFetch.get(url);
+    // const { data } = await axios.get(url);
+    // thunkAPI.dispatch(clearFilters());
+    return data;
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+};

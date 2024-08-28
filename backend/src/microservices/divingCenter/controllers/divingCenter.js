@@ -14,6 +14,13 @@ exports.getDivingCenters = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+exports.getCities = async (req, res) => {
+  try {
+    const cities = await divingCenterService.getAllCentersCities(req, res);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 exports.getDivingCenterUser = async (req, res) => {
   try {
     const divingCenters = await divingCenterService.getAllDivingCentersOfUser(

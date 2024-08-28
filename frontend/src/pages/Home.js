@@ -10,6 +10,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector, batch } from "react-redux";
 import {
+  getAllCenterCities,
   getAllDivingCenters,
   handleChange,
 } from "../features/divingCenters/divingCentersSlice.js";
@@ -17,58 +18,56 @@ import {
 import { AutoComplete } from "primereact/autocomplete";
 import DateInput from "../components/common/DateInput.js";
 function Home() {
-  const townsOfFrance = [
-    { name: "Paris", code: "PAR" },
-    { name: "Lyon", code: "LYO" },
-    { name: "Marseille", code: "MAR" },
-    { name: "Toulouse", code: "TOU" },
-    { name: "Nice", code: "NIC" },
-    { name: "Nantes", code: "NAN" },
-    { name: "Strasbourg", code: "STR" },
-    { name: "Montpellier", code: "MON" },
-    { name: "Bordeaux", code: "BOR" },
-    { name: "Lille", code: "LIL" },
-  ];
-  const [countries, setCountries] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [filteredCountries, setFilteredCountries] = useState(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCenterCities());
+  }, []);
+  const { citiesOption } = useSelector((store) => store.divingCentersState);
+  const [cities, setCities] = useState(citiesOption);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [filteredCities, setFilteredCities] = useState(null);
 
   const searchItem = (event) => {
     // Timeout to emulate a network connection
     setTimeout(() => {
-      let _filteredCountries;
+      let _filteredCities;
 
       if (!event.query.trim().length) {
-        _filteredCountries = [...countries];
+        _filteredCities = [...cities];
       } else {
-        _filteredCountries = countries.filter((country) => {
-          return country.name
-            .toLowerCase()
-            .startsWith(event.query.toLowerCase());
-        });
+        _filteredCities = cities
+          .filter((city) => {
+            const [cityName, countryName] = city.name.split(",");
+            return cityName.toLowerCase().startsWith(event.query.toLowerCase());
+          })
+          .map((city) => {
+            const [cityName, countryName] = city.name.split(",");
+            const capitalizedCountryName =
+              countryName.charAt(0).toUpperCase() +
+              countryName.slice(1).toLowerCase();
+            return {
+              name: `${cityName}, ${capitalizedCountryName}`,
+              code: `${cityName},${capitalizedCountryName}`,
+            };
+          });
       }
 
-      setFilteredCountries(_filteredCountries);
+      setFilteredCities(_filteredCities);
     }, 250);
   };
 
-  useEffect(() => {
-    // CountryService.getCountries().then((data) => setCountries(data));
-    setCountries(townsOfFrance);
-  }, []);
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
   const handleSearch = () => {
     const searchParams = new URLSearchParams();
-    searchParams.set("city", selectedCountry.name);
+
+    const cityName = selectedCity ? selectedCity.name.split(",")[0] : "";
     navigate(`${pathname}diving-center/list?${searchParams.toString()}`);
     batch(() => {
       dispatch(
         handleChange({
           name: "search",
-          value: { city: selectedCountry.name },
+          value: { city: cityName },
         })
       );
       dispatch(getAllDivingCenters());
@@ -95,10 +94,10 @@ function Home() {
         <div className="card w-2/3 p-fluid">
           <AutoComplete
             field="name"
-            value={selectedCountry}
-            suggestions={filteredCountries}
+            value={selectedCity}
+            suggestions={filteredCities}
             completeMethod={searchItem}
-            onChange={(e) => setSelectedCountry(e.value)}
+            onChange={(e) => setSelectedCity(e.value)}
             placeholder="Where do you want to dive?"
           />
         </div>
@@ -124,10 +123,10 @@ function Home() {
         <div className="card p-fluid p-2 w-full rounded-lg bg-white">
           <AutoComplete
             field="name"
-            value={selectedCountry}
-            suggestions={filteredCountries}
+            value={selectedCity}
+            suggestions={filteredCities}
             completeMethod={searchItem}
-            onChange={(e) => setSelectedCountry(e.value)}
+            onChange={(e) => setSelectedCity(e.value)}
             placeholder="Where do you want to dive?"
             width={"100%"}
           />
@@ -137,10 +136,10 @@ function Home() {
           <div className="card p-fluid p-2 rounded-lg bg-white flex items-center ">
             <AutoComplete
               field="name"
-              value={selectedCountry}
-              suggestions={filteredCountries}
+              value={selectedCity}
+              suggestions={filteredCities}
               completeMethod={searchItem}
-              onChange={(e) => setSelectedCountry(e.value)}
+              onChange={(e) => setSelectedCity(e.value)}
               placeholder="Name of Center"
               className=""
             />
