@@ -19,11 +19,12 @@ import { AutoComplete } from "primereact/autocomplete";
 import DateInput from "../components/common/DateInput.js";
 function Home() {
   const dispatch = useDispatch();
+  const [cities, setCities] = useState(null);
   useEffect(() => {
     dispatch(getAllCenterCities());
+    const { citiesOption } = useSelector((store) => store.divingCentersState);
+    setCities(citiesOption);
   }, []);
-  const { citiesOption } = useSelector((store) => store.divingCentersState);
-  const [cities, setCities] = useState(citiesOption);
   const [selectedCity, setSelectedCity] = useState(null);
   const [filteredCities, setFilteredCities] = useState(null);
 
