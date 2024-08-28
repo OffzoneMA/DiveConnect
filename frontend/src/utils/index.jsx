@@ -13,6 +13,7 @@ export const customFetch = axios.create({
   //   "Content-Type": "application/json",
   // },
 });
+
 export const api = "";
 // customFetch.interceptors.request.use((config) => {
 //   const user = getUserFromLocalStorage();
