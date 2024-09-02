@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const bookingController = require("../controllers/booking");
-const { authenticateUser } = require("../../../middleware/authentication");
+const { authenticateUser } = require("../middleware/authentication");
 
 // router.use("/:divingCenterId", (req, res, next) => {
 //   req.divingCenterId = req.params.divingCenterId;

@@ -7,13 +7,13 @@ const listEndpoints = require("express-list-endpoints");
 const cookieParser = require("cookie-parser");
 
 // routes and other middleware configurations
-const divingAssociationRoutes = require("./src/microservices/divingAssociation/routes/divingAssociation");
-const bookingRoutes = require("./src/microservices/booking/routes/booking");
-const userRoutes = require("./src/microservices/user/routes/userRouter");
-const divingCenterRoutes = require("./src/microservices/divingCenter/routes/divingCenter");
-const equipmentRoutes = require("./src/microservices/divingCenter/routes/equipment");
+const bookingRoutes = require("./src/routes/booking");
+const userRoutes = require("./src/routes/userRouter");
+const divingCenterRoutes = require("./src/routes/divingCenter");
+const equipmentRoutes = require("./src/routes/equipment");
+const statsRoutes=require("./src/routes/statsRouter");
 const data = require("./src/utils/data");
-const DivingCenter = require("./src/microservices/divingCenter/models/DivingCenter");
+const DivingCenter = require("./src/models/DivingCenter");
 
 dotenv.config();
 
@@ -31,10 +31,10 @@ app.use(cookieParser(process.env.JWT_SECRET));
 
 // Use routes
 app.use("/diving-centers", divingCenterRoutes);
-app.use("/diving-associations", divingAssociationRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/equipments", equipmentRoutes);
 app.use("/user", userRoutes);
+app.use("/stats", statsRoutes);
 app.use("/", (req, res) => {
   const endpoints = listEndpoints(app);
   res.json(endpoints);
@@ -66,7 +66,7 @@ mongoose.connection.once("open", () => {
   // });
 });
 // Start server
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

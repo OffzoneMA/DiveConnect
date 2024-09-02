@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Booking = require("../models/Booking");
-const Equipment = require("../../divingCenter/models/Equipment");
+const Equipment = require("../models/Equipment");
 
 const createBooking = async (bookingData) => {
   const booking = new Booking(bookingData);
