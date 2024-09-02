@@ -19,10 +19,10 @@ import { AutoComplete } from "primereact/autocomplete";
 import DateInput from "../components/common/DateInput.js";
 function Home() {
   const dispatch = useDispatch();
-  const [cities, setCities] = useState(null);
+  const { citiesOption } = useSelector((store) => store.divingCentersState);
+  const [cities, setCities] = useState([]);
   useEffect(() => {
     dispatch(getAllCenterCities());
-    const { citiesOption } = useSelector((store) => store.divingCentersState);
     setCities(citiesOption);
   }, []);
   const [selectedCity, setSelectedCity] = useState(null);
@@ -61,9 +61,16 @@ function Home() {
   const { pathname } = useLocation();
   const handleSearch = () => {
     const searchParams = new URLSearchParams();
+    console.log(selectedCity);
 
-    const cityName = selectedCity ? selectedCity.name.split(",")[0] : "";
-    navigate(`${pathname}diving-center/list?${searchParams.toString()}`);
+    const cityName = selectedCity
+      ? selectedCity.name
+        ? selectedCity.name.split(",")[0]
+        : selectedCity
+      : "";
+    console.log(searchParams);
+
+    navigate(`${pathname}diving-center/list?city=${cityName}`);
     batch(() => {
       dispatch(
         handleChange({

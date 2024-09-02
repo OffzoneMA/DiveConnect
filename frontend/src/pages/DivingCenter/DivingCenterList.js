@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { makeStyles } from "@mui/styles";
 import { Grid, Typography, CircularProgress, Paper } from "@mui/material";
 import CustomLayout from "../../components/common/Layout.js";
@@ -26,6 +27,10 @@ import DivingCenterCard from "./DivingCenterCard.js";
 import CancelFilterButton from "../../components/common/CancelFilterButton.js";
 import ModalFilters from "../../components/common/ModalFilters.js";
 import Filters from "../../components/common/Filters.js";
+import { Paginator } from "primereact/paginator";
+
+import { Slider } from "primereact/slider";
+import { Tooltip } from "primereact/tooltip";
 const DivingCenterList = () => {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -72,13 +77,41 @@ const DivingCenterList = () => {
   const { search, pathname } = useLocation();
   const { page, numOfPages } = useSelector((store) => store.divingCentersState);
   const navigate = useNavigate();
-  const handleChangePagination = (e, value) => {
+  const [first, setFirst] = useState(0);
+  const [rows, setRows] = useState(10);
+  const handleChangePagination = (e) => {
+    console.log(e);
+    setFirst(e.first);
+    setRows(e.rows);
     const searchParams = new URLSearchParams(search);
-    searchParams.set("page", value);
+    searchParams.set("page", e.page + 1);
     navigate(`${pathname}?${searchParams.toString()}`);
-    dispatch(handleChange({ name: "page", value }));
+    dispatch(handleChange({ name: "page", value: e.page + 1 }));
     dispatch(getAllDivingCenters());
   };
+
+  // pixel
+  const [images, setImages] = useState([]);
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const response = await axios.get("https://api.pexels.com/v1/search", {
+          headers: {
+            Authorization: process.env.PIXEL_KEY_API, // Replace with your Pexels API key
+          },
+          params: {
+            query: "diver",
+            per_page: 10, // Number of images you want to fetch
+          },
+        });
+        setImages(response.data.photos);
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    };
+
+    fetchImages();
+  }, []);
   return (
     <>
       {/* <BackgroundSection />
@@ -143,16 +176,18 @@ const DivingCenterList = () => {
                 </button>
               </div>
               <div className="flex flex-col  rounded-sm bg-[#E3EFFF]">
-                {divingCenters.map((divingCenter) => (
+                {divingCenters.map((divingCenter, index) => (
                   <DivingCenterCard
                     center={divingCenter}
                     onCenterChange={onDivingCenterChange}
                     selectedCenters={selectedDivingCenters}
+                    // random image
+                    randomImg={images[index]}
                   ></DivingCenterCard>
                 ))}
               </div>
               <div className="self-center">
-                <Stack className="" spacing={2}>
+                {/* <Stack className="" spacing={2}>
                   <Pagination
                     count={numOfPages}
                     color="primary"
@@ -160,7 +195,13 @@ const DivingCenterList = () => {
                     onChange={handleChangePagination}
                     shape="rounded"
                   />
-                </Stack>
+                </Stack> */}
+                <Paginator
+                  first={first}
+                  rows={rows}
+                  totalRecords={numOfPages * 10}
+                  onPageChange={handleChangePagination}
+                />
               </div>
             </div>
           </div>

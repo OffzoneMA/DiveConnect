@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 import { PrimeReactProvider } from "primereact/api";
 
 import "./fonts.css";
-import "./style.css";
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>

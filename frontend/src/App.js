@@ -1,4 +1,6 @@
 import * as React from "react";
+import "./style.css";
+
 import "primeicons/primeicons.css"; //icons
 import "primeflex/primeflex.css"; // flex
 import "primereact/resources/primereact.css"; //core css

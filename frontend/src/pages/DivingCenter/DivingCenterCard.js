@@ -1,18 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Ratting from "../../components/common/Ratting";
 import Star from "../../components/common/Star";
 
-function DivingCenterCard({ center, onCenterChange, selectedCenters }) {
-  console.log(onCenterChange);
+function DivingCenterCard({
+  center,
+  onCenterChange,
+  selectedCenters,
+  randomImg: image,
+}) {
+  // return (
+  //   <div>
+  //     <h1>Diver Images</h1>
+  //     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
+  //       {images.map((image) => (
+  //         <img
+  //           key={image.id}
+  //           src={image.src.medium}
+  //           alt={image.alt}
+  //           style={{ width: "200px" }}
+  //         />
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div className="flex bg-white m-3 sm:m-4">
-      <img
-        className=" w-1/3 sm:w-80"
-        src={center.image || "/image/underwater.jpg"}
-        alt=""
-      />
-      <div className="flex flex-col gap-1 px-1 py-4 sm:p-4">
+      {center.image ? (
+        <img
+          className=" w-1/3 sm:w-80 h-64"
+          src={center.image || "/image/underwater.jpg"}
+          alt=""
+        />
+      ) : (
+        <img
+          className=" w-1/3 sm:w-80 h-64"
+          key={image?.id}
+          src={image?.src.medium}
+          alt={image?.alt}
+        />
+      )}
+      <div className="flex flex-col gap-1 px-1 py-4 sm:p-4 flex-1">
         <div className="flex justify-between w-12">
           <p className="text-[#0065B8] text-[1.375rem] leading-9 text-lg">
             {center.name}

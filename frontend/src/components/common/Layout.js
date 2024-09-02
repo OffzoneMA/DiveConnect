@@ -141,7 +141,6 @@ function CustomLayout(props) {
               <Dropdown>
                 <MenuButton sx={{ display: "flex", alignItems: "center" }}>
                   {user.name}
-                  <ExpandMoreIcon />{" "}
                 </MenuButton>
                 <Menu slots={{ listbox: AnimatedListbox }}>
                   <MenuItem onClick={createHandleMenuClick("/profile")}>
