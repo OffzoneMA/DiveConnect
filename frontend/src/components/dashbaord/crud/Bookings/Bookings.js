@@ -86,7 +86,7 @@ const Bookings = () => {
   // };
   return (
     <Paper className={classes.paper}>
-      <DivingSearchBar></DivingSearchBar>
+      {/* <DivingSearchBar></DivingSearchBar> */}
       <div className={classes.submitBtn}>
         {/* <Button
           component={Link}
