@@ -43,6 +43,13 @@ const deleteBooking = async (id) => {
   return deletedBooking;
 };
 
+
+
+
+
+
+
+
 module.exports = {
   createBooking,
   getAllBookings,
