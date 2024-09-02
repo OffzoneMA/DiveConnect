@@ -36,6 +36,7 @@ import SharedLayer from "./components/dashbaord/crud/SharedLayer";
 import CenterEdit from "./components/dashbaord/crud/Centers/CenterEdit";
 import Bookings from "./components/dashbaord/crud/Bookings/Bookings";
 import ContactUs from "./pages/ContactUs";
+import Requests from "./pages/Requests";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         element: <ContactUs />,
         path: "/contact-us",
+      },
+      {
+        element: <Requests />,
+        path: "/requests",
       },
       {
         element: <DivingCenterNew />,

@@ -40,7 +40,7 @@ const navItems = [
   { name: "Home", lien: "" },
   { name: "Diving Centers", lien: "diving-center/list" },
   { name: "Contact Us", lien: "contact-us" },
-  { name: "Requests", lien: "" },
+  { name: "Requests", lien: "requests" },
 ];
 
 function CustomLayout(props) {
@@ -150,9 +150,6 @@ function CustomLayout(props) {
                     onClick={createHandleMenuClick("/dashboard/centers")}
                   >
                     Mes centres
-                  </MenuItem>
-                  <MenuItem onClick={createHandleMenuClick("/logout")}>
-                    Mes associations
                   </MenuItem>
                   <MenuItem
                     sx={{
