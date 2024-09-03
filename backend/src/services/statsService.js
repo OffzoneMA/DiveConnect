@@ -44,6 +44,20 @@ const getDiveCenterStats = async () => {
             { $limit: 1 }, // Get the most frequently rented equipment
         ]);
 
+        // New: Calculate dive centers by agency
+        const diveCentersByAgency = await DiveCenter.aggregate([
+            { $unwind: "$agencies" }, // Flatten the agencies array
+            { $group: { _id: "$agencies", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+        ]);
+
+        // New: Calculate dive centers by language
+        const diveCentersByLanguage = await DiveCenter.aggregate([
+            { $unwind: "$languages" }, // Flatten the languages array
+            { $group: { _id: "$languages", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+        ]);
+
         return {
             totalDiveCenters,
             diveCentersByCountry,
@@ -55,6 +69,8 @@ const getDiveCenterStats = async () => {
             requestsByStatus,
             numberOfDiversPerRequest: numberOfDiversPerRequest[0]?.averageDivers || 0,
             frequentEquipementRent: frequentEquipementRent[0]?._id || "No data",
+            diveCentersByAgency,
+            diveCentersByLanguage,
         };
     } catch (error) {
         console.error(error);

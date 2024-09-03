@@ -17,18 +17,28 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Legend,
+  LineChart,
+  Line,
+  CartesianGrid,
 } from "recharts";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(3),
+    background: 'url(<path-to-image>) lightgray 0.175px -153.053px / 100% 261.134% no-repeat',
   },
   card: {
     height: "100%",
+    borderRadius: '8px 8px 0px 0px',
   },
   cardHeader: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "#2D4452",
     color: theme.palette.primary.contrastText,
+    borderRadius: '8px 8px 0px 0px',
   },
   chartContainer: {
     height: 300,
@@ -36,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
   centerText: {
     textAlign: "center",
     marginTop: theme.spacing(2),
+  },
+  button: {
+    backgroundColor: "#4E9FFF",
+    color: "#FFFFFF",
+    '&:hover': {
+      backgroundColor: "#4E9FFF",
+    },
   },
 }));
 
@@ -76,15 +93,17 @@ const StatsDashboard = () => {
     );
   }
 
+  // Colors for the pie chart segments, matching your secondary colors
+  const COLORS = ["#FBE080", "#C3DDFF", "#4E9FFF"];
+
   return (
+    <section className="bg-gray-700 mt-8 sm:mt-4">
+    <div className="container mx-auto px-3 sm:px-6 sm:py-20 ">
     <div className={classes.root}>
       <Grid container spacing={3}>
-        {/* Total Dive Centers */}
-        {/* Dive Centers by Country */}
 
-
-        {/* Dive Centers with and without Email */}
-        <Grid item xs={12} md={6} lg={4}>
+        {/* Dive Centers with Email */}
+        <Grid item xs={12} md={6} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers with Email"
@@ -98,7 +117,8 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6} lg={4}>
+        {/* Dive Centers without Email */}
+        <Grid item xs={12} md={6} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers without Email"
@@ -112,8 +132,8 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
 
-        {/* Dive Centers with and without Phone */}
-        <Grid item xs={12} md={6} lg={4}>
+        {/* Dive Centers with Phone */}
+        <Grid item xs={12} md={6} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers with Phone"
@@ -127,7 +147,8 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6} lg={4}>
+        {/* Dive Centers without Phone */}
+        <Grid item xs={12} md={6} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers without Phone"
@@ -156,42 +177,8 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
 
-        {/* Requests by Status */}
-        <Grid item xs={12} md={6} lg={4}>
-          <Card className={classes.card}>
-            <CardHeader
-              title="Requests by Status"
-              className={classes.cardHeader}
-            />
-            <CardContent>
-              <ul>
-                {stats.requestsByStatus.map((status) => (
-                  <li key={status._id}>
-                    {status._id}: {status.count}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        {/* Most Frequent Equipment Rented */}
-        <Grid item xs={12} md={6} lg={4}>
-          <Card className={classes.card}>
-            <CardHeader
-              title="Most Frequent Equipment Rented"
-              className={classes.cardHeader}
-            />
-            <CardContent>
-              <Typography variant="h4" align="center">
-                {stats.frequentEquipementRent}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
         {/* Average Number of Divers per Request */}
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={6} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Average Number of Divers per Request"
@@ -205,7 +192,74 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6} lg={8}>
+        {/* Requests Over Time Line Chart */}
+        <Grid item xs={12} md={12} lg={8}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Requests Over Time"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={stats.requestsOverTime}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="count" stroke="#8884d8" />
+                </LineChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* Requests by Status with Circle Chart and Legend */}
+        <Grid item xs={12} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Dive centers by agency "
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={stats.requestsByStatus}
+                    dataKey="count"
+                    nameKey="_id"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    label
+                  >
+                    {stats.requestsByStatus.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Most Frequent Equipment Rented */}
+        <Grid item xs={12} md={6} lg={3}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Most Frequent Equipment Rented"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <Typography variant="h4" align="center">
+                {stats.frequentEquipementRent}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        {/* Dive Centers by Country */}
+        <Grid item xs={12} md={6} lg={6}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers by Country"
@@ -222,9 +276,94 @@ const StatsDashboard = () => {
               </ResponsiveContainer>
             </CardContent>
           </Card>
-        </Grid>         
+        </Grid>
+                    {/* Dive Centers by Language */}
+                    <Grid item xs={12} md={6} lg={3}>
+              <Card className={classes.card}>
+                <CardHeader
+                  title="Dive Centers by Language"
+                  className={classes.cardHeader}
+                />
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={stats.diveCentersByLanguage}
+                        dataKey="count"
+                        nameKey="_id"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={80}
+                        fill="#8884d8"
+                        label
+                      >
+                        {stats.diveCentersByLanguage.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+                    {/* Dive Centers by Agency */}
+                    <Grid item xs={12} md={6} lg={6}>
+              <Card className={classes.card}>
+                <CardHeader
+                  title="Dive Centers by Agency"
+                  className={classes.cardHeader}
+                />
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={stats.diveCentersByAgency} layout="vertical">
+                      <XAxis type="number" />
+                      <YAxis dataKey="_id" type="category" />
+                      <Tooltip />
+                      <Bar dataKey="count" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+
+                {/* Requests by Status with Circle Chart and Legend */}
+                <Grid item xs={12} md={6} lg={3}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Requests by Status"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <Pie
+                    data={stats.requestsByStatus}
+                    dataKey="count"
+                    nameKey="_id"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={80}
+                    fill="#8884d8"
+                    label
+                  >
+                    {stats.requestsByStatus.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </Grid>
+
       </Grid>
+      </div>
     </div>
+    </section>  
   );
 };
 
