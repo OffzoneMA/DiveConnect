@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const equipmentSchema = require("./Equipment");
 
-const invoiceRequestSchema = new mongoose.Schema(
+const requestSchema = new mongoose.Schema(
   {
     divingCenter: { type: mongoose.Schema.Types.ObjectId, ref: "DivingCenter", required: true },
     startDate: { type: Date, required: true },
@@ -26,4 +26,4 @@ const invoiceRequestSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("InvoiceRequest", invoiceRequestSchema);
+module.exports = mongoose.model("RequestSchema", requestSchema);
