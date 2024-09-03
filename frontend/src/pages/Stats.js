@@ -103,7 +103,7 @@ const StatsDashboard = () => {
       <Grid container spacing={3}>
 
         {/* Dive Centers with Email */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers with Email"
@@ -118,7 +118,7 @@ const StatsDashboard = () => {
         </Grid>
 
         {/* Dive Centers without Email */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers without Email"
@@ -133,7 +133,7 @@ const StatsDashboard = () => {
         </Grid>
 
         {/* Dive Centers with Phone */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers with Phone"
@@ -148,7 +148,7 @@ const StatsDashboard = () => {
         </Grid>
 
         {/* Dive Centers without Phone */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive Centers without Phone"
@@ -163,7 +163,7 @@ const StatsDashboard = () => {
         </Grid>
 
         {/* Total Requests */}
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Total Requests"
@@ -178,7 +178,7 @@ const StatsDashboard = () => {
         </Grid>
 
         {/* Average Number of Divers per Request */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Average Number of Divers per Request"
@@ -213,7 +213,7 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
         {/* Requests by Status with Circle Chart and Legend */}
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid item xs={12} md={4} lg={4}>
           <Card className={classes.card}>
             <CardHeader
               title="Dive centers by agency "
@@ -245,7 +245,7 @@ const StatsDashboard = () => {
         </Grid>
 
         {/* Most Frequent Equipment Rented */}
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Most Frequent Equipment Rented"
@@ -278,7 +278,7 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
                     {/* Dive Centers by Language */}
-                    <Grid item xs={12} md={6} lg={3}>
+                    <Grid item xs={12} md={3} lg={3}>
               <Card className={classes.card}>
                 <CardHeader
                   title="Dive Centers by Language"
@@ -329,7 +329,7 @@ const StatsDashboard = () => {
             </Grid>
 
                 {/* Requests by Status with Circle Chart and Legend */}
-                <Grid item xs={12} md={6} lg={3}>
+                <Grid item xs={12} md={3} lg={3}>
           <Card className={classes.card}>
             <CardHeader
               title="Requests by Status"
