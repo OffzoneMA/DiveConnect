@@ -1,27 +1,48 @@
 const DiveCenter = require("../models/DivingCenter");
+const Request = require("../models/Request");
 
 const getDiveCenterStats = async () => {
     try {
-        // Total number of dive centers
+        // Existing statistics computations...
         const totalDiveCenters = await DiveCenter.countDocuments();
-
-        // Number of dive centers by country
         const diveCentersByCountry = await DiveCenter.aggregate([
             { $group: { _id: "$country", count: { $sum: 1 } } },
             { $sort: { count: -1 } },
         ]);
-
-        // Number of dive centers with an email
         const diveCentersWithEmail = await DiveCenter.countDocuments({ email: { $ne: null } });
-
-        // Number of dive centers without an email
         const diveCentersWithoutEmail = await DiveCenter.countDocuments({ email: null });
-
-        // Number of dive centers with a phone number
         const diveCentersWithPhone = await DiveCenter.countDocuments({ phone: { $ne: null } });
-
-        // Number of dive centers without a phone number
         const diveCentersWithoutPhone = await DiveCenter.countDocuments({ phone: null });
+        const totalRequests = await Request.countDocuments();
+        const requestsByStatus = await Request.aggregate([
+            { $group: { _id: "$status", count: { $sum: 1 } } },
+        ]);
+
+        // Calculate total divers per request (average)
+        const numberOfDiversPerRequest = await Request.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    averageDivers: {
+                        $avg: {
+                            $sum: [
+                                "$numberOfDiversLevel1",
+                                "$numberOfDiversLevel2",
+                                "$numberOfDiversLevel3",
+                            ],
+                        },
+                    },
+                },
+            },
+        ]);
+
+        // Calculate the most frequently rented equipment
+        const frequentEquipementRent = await Request.aggregate([
+            { $unwind: "$equipments" }, // Flatten the equipment array
+            { $group: { _id: "$equipments.name", count: { $sum: 1 } } },
+            { $sort: { count: -1 } },
+            { $limit: 1 }, // Get the most frequently rented equipment
+        ]);
 
         return {
             totalDiveCenters,
@@ -30,10 +51,14 @@ const getDiveCenterStats = async () => {
             diveCentersWithoutEmail,
             diveCentersWithPhone,
             diveCentersWithoutPhone,
+            totalRequests,
+            requestsByStatus,
+            numberOfDiversPerRequest: numberOfDiversPerRequest[0]?.averageDivers || 0,
+            frequentEquipementRent: frequentEquipementRent[0]?._id || "No data",
         };
     } catch (error) {
         console.error(error);
-        throw new Error("Error fetching dive center statistics");
+        throw new Error("Error fetching statistics");
     }
 };
 

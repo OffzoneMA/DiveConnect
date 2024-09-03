@@ -9,7 +9,6 @@ const requestSchema = new mongoose.Schema(
     numberOfDiversLevel1: { type: Number, required: true, min: 0, default: 0 }, // Beginner level divers
     numberOfDiversLevel2: { type: Number, required: true, min: 0, default: 0 }, // Intermediate level divers
     numberOfDiversLevel3: { type: Number, required: true, min: 0, default: 0 }, // Advanced level divers
-    equipments: [equipmentSchema], // List of equipment to be rented
     clientName: { type: String, required: true },
     email: { type: String, required: true, match: [/\S+@\S+\.\S+/, 'Please use a valid email address.'] },
     phone: { type: String, required: true, match: [/^\d{10,15}$/, 'Please enter a valid phone number.'] },
@@ -26,4 +25,4 @@ const requestSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("RequestSchema", requestSchema);
+module.exports = mongoose.model("Request", requestSchema);

@@ -80,22 +80,8 @@ const StatsDashboard = () => {
     <div className={classes.root}>
       <Grid container spacing={3}>
         {/* Total Dive Centers */}
-        <Grid item xs={12} md={6} lg={4}>
-          <Card className={classes.card}>
-            <CardHeader
-              title="Total Dive Centers"
-              className={classes.cardHeader}
-            />
-            <CardContent>
-              <Typography variant="h4" align="center">
-                {stats.totalDiveCenters}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
         {/* Dive Centers by Country */}
-        
+
 
         {/* Dive Centers with and without Email */}
         <Grid item xs={12} md={6} lg={4}>
@@ -155,6 +141,70 @@ const StatsDashboard = () => {
           </Card>
         </Grid>
 
+        {/* Total Requests */}
+        <Grid item xs={12} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Total Requests"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <Typography variant="h4" align="center">
+                {stats.totalRequests}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Requests by Status */}
+        <Grid item xs={12} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Requests by Status"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <ul>
+                {stats.requestsByStatus.map((status) => (
+                  <li key={status._id}>
+                    {status._id}: {status.count}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Most Frequent Equipment Rented */}
+        <Grid item xs={12} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Most Frequent Equipment Rented"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <Typography variant="h4" align="center">
+                {stats.frequentEquipementRent}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Average Number of Divers per Request */}
+        <Grid item xs={12} md={6} lg={4}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Average Number of Divers per Request"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <Typography variant="h4" align="center">
+                {stats.numberOfDiversPerRequest.toFixed(2)}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+
         <Grid item xs={12} md={6} lg={8}>
           <Card className={classes.card}>
             <CardHeader
@@ -162,17 +212,17 @@ const StatsDashboard = () => {
               className={classes.cardHeader}
             />
             <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
+              <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={stats.diveCentersByCountry} layout="vertical">
-                <XAxis type="number" />
-                <YAxis dataKey="_id" type="category" />
-                <Tooltip />
-                <Bar dataKey="count" fill="#3f51b5" />
+                  <XAxis type="number" />
+                  <YAxis dataKey="_id" type="category" />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#3f51b5" />
                 </BarChart>
-            </ResponsiveContainer>
+              </ResponsiveContainer>
             </CardContent>
           </Card>
-        </Grid>
+        </Grid>         
       </Grid>
     </div>
   );
