@@ -8,7 +8,7 @@ router.get("/user", [authenticateUser,divingCenterController.getDivingCenterUser
 router.get("/cities", divingCenterController.getCities);
 
 router.get("/:id", divingCenterController.getDivingCenter);
-router.post("/", [authenticateUser, divingCenterController.createDivingCenter]);
+router.post("/",  divingCenterController.createDivingCenter);
 router.route("/deviseForm").post([authenticateUser, divingCenterController.createDeviseForm]);
 
 router.put("/:id", divingCenterController.updateDivingCenter);
