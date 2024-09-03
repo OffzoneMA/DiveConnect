@@ -48,18 +48,32 @@ exports.getDivingCenter = async (req, res) => {
 
 exports.createDivingCenter = async (req, res) => {
   try {
-    // const newDivingCenter = await divingCenterService.createDivingCenter(
-    //   req.body
-    // );
-    const image = await uploadImage(req.body.center.image);
+    // Check if the center data exists in the request
+    if (!req.body.center) {
+      return res.status(400).json({ error: "Center data is required" });
+    }
+
+    // Handle image upload if the image URL exists
+    let image = req.body.center.image;
+
+    if (image) {
+      image = await uploadImage(image);
+    }
+
+    // Create the new diving center with the provided data
     const newDivingCenter = await divingCenterService.createDivingCenter({
       ...req.body.center,
-      user: req.body.user.userId,
-      image,
+      user: req.body.user.userId, // Ensure the user ID is correctly passed
+      image: image || null, // Assign the uploaded image URL or null
     });
-    res.status(201).json({ message: "Diving center created" });
+
+    res.status(201).json({ message: "Diving center created successfully", center: newDivingCenter });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    // Log the error for debugging purposes
+    console.error("Error creating diving center:", error);
+
+    // Send a detailed error response
+    res.status(500).json({ error: error.message || "Server error while creating diving center" });
   }
 };
 
