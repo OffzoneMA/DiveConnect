@@ -10,6 +10,7 @@ const cookieParser = require("cookie-parser");
 const bookingRoutes = require("./src/routes/booking");
 const userRoutes = require("./src/routes/userRouter");
 const divingCenterRoutes = require("./src/routes/divingCenter");
+const request = require("./src/routes/request");
 const equipmentRoutes = require("./src/routes/equipment");
 const statsRoutes=require("./src/routes/statsRouter");
 const data = require("./src/utils/data");
@@ -33,6 +34,7 @@ app.use(cookieParser(process.env.JWT_SECRET));
 app.use("/diving-centers", divingCenterRoutes);
 app.use("/bookings", bookingRoutes);
 app.use("/equipments", equipmentRoutes);
+app.use("/request", request);
 app.use("/user", userRoutes);
 app.use("/stats", statsRoutes);
 app.use("/", (req, res) => {
