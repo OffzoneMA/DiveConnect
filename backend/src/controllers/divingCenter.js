@@ -1,8 +1,8 @@
 const divingCenterService = require("../services/divingCenter");
-const bookingService = require("../../booking/services/booking");
+const bookingService = require("../services/booking");
 const { sendEmailTest } = require("./email");
-const Booking = require("../../booking/models/Booking");
-const { uploadImage, deleteImage } = require("../../../utils/uploadImage");
+const Booking = require("../models/Booking");
+const { uploadImage, deleteImage } = require("../utils/uploadImage");
 
 exports.getDivingCenters = async (req, res) => {
   try {

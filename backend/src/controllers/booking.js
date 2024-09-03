@@ -1,5 +1,5 @@
 const bookingService = require("../services/booking");
-const divingCenterService = require("../../divingCenter/services/divingCenter");
+const divingCenterService = require("../services/divingCenter");
 exports.createBooking = async (req, res) => {
   try {
     const newBooking = await bookingService.createBooking(req.body);

@@ -1,4 +1,4 @@
-const { uploadImage, deleteImage } = require("../../../utils/uploadImage");
+const { uploadImage, deleteImage } = require("../utils/uploadImage");
 const divingCenterModel = require("../models/DivingCenter");
 
 class DivingCenterService {

@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const {
   attachCookiesToResponse,
   createTokenUser,
-} = require("../../../utils/jwt");
+} = require("../utils/jwt");
 
 exports.getUsers = async () => {
   return await User.find({}, "name email role createdAt updatedAt");

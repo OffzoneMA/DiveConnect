@@ -19,9 +19,9 @@ import DivingCenterList from "./pages/DivingCenter/DivingCenterList";
 import DivingCenterDetails from "./pages/DivingCenter/DivingCenterDetails";
 import DivingCenterNew from "./pages/DivingCenter/DivingCenterNew";
 
-import DivingAssociationList from "./pages/DivingAssociation/DivingAssociationList";
-import DivingAssociationNew from "./pages/DivingAssociation/DivingAssociationNew";
-import DivingAssociationDetails from "./pages/DivingAssociation/DivingAssociationDetails";
+
+import Stats from "./pages/Stats.js";
+
 
 import UserList from "./pages/User/UserList";
 import UserNew from "./pages/User/UserNew";
@@ -68,18 +68,6 @@ const router = createBrowserRouter([
         path: "/diving-center/:id",
       },
       {
-        element: <DivingAssociationList />,
-        path: "/diving-association/list",
-      },
-      {
-        element: <DivingAssociationNew />,
-        path: "/diving-association/new",
-      },
-      {
-        element: <DivingAssociationDetails />,
-        path: "/diving-association/:id",
-      },
-      {
         element: <UserList />,
         path: "/user/list",
       },
@@ -90,6 +78,10 @@ const router = createBrowserRouter([
       {
         element: <UserDetails />,
         path: "/user/:id",
+      },
+      {
+        element: <Stats />,
+        path: "/stats",
       },
       {
         element: (
