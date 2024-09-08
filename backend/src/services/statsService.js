@@ -8,11 +8,13 @@ const getDiveCenterStats = async () => {
         const diveCentersByCountry = await DiveCenter.aggregate([
             { $group: { _id: "$country", count: { $sum: 1 } } },
             { $sort: { count: -1 } },
+            { $limit: 25 }  // Add the limit stage to return only 15 results
         ]);
         const diveCentersWithEmail = await DiveCenter.countDocuments({ email: { $ne: null } });
         const diveCentersWithoutEmail = await DiveCenter.countDocuments({ email: null });
         const diveCentersWithPhone = await DiveCenter.countDocuments({ phone: { $ne: null } });
         const diveCentersWithoutPhone = await DiveCenter.countDocuments({ phone: null });
+        const diveCentersWithoutAccount = await DiveCenter.countDocuments({ user: null });
         const totalRequests = await Request.countDocuments();
         const requestsByStatus = await Request.aggregate([
             { $group: { _id: "$status", count: { $sum: 1 } } },
@@ -65,6 +67,7 @@ const getDiveCenterStats = async () => {
             diveCentersWithoutEmail,
             diveCentersWithPhone,
             diveCentersWithoutPhone,
+            diveCentersWithoutAccount,
             totalRequests,
             requestsByStatus,
             numberOfDiversPerRequest: numberOfDiversPerRequest[0]?.averageDivers || 0,

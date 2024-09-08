@@ -131,6 +131,20 @@ const StatsDashboard = () => {
             </CardContent>
           </Card>
         </Grid>
+        {/* Dive Centers without Email */}
+        <Grid item xs={12} md={3} lg={3}>
+          <Card className={classes.card}>
+            <CardHeader
+              title="Dive Centers without User"
+              className={classes.cardHeader}
+            />
+            <CardContent>
+              <Typography variant="h4" align="center">
+                {stats.diveCentersWithoutAccount}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
 
         {/* Dive Centers with Phone */}
         <Grid item xs={12} md={3} lg={3}>
@@ -265,16 +279,20 @@ const StatsDashboard = () => {
               title="Dive Centers by Country"
               className={classes.cardHeader}
             />
-            <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={stats.diveCentersByCountry} layout="vertical">
-                  <XAxis type="number" />
-                  <YAxis dataKey="_id" type="category" />
-                  <Tooltip />
-                  <Bar dataKey="count" fill="#3f51b5" />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={600}>
+              <BarChart
+                data={stats.diveCentersByCountry}
+                layout="vertical"
+                margin={{ top: 20, right: 20, left: 20, bottom: 20 }}  // Use margin for padding
+              >
+                <XAxis type="number" />
+                <YAxis dataKey="_id" type="category" />
+                <Tooltip />
+                <Bar dataKey="count" fill="#3f51b5" />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
           </Card>
         </Grid>
                     {/* Dive Centers by Language */}

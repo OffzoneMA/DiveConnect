@@ -6,11 +6,11 @@ const allowedLanguages = ["english", "french", "spanish", "german", "italian"];
 
 const divingCenterSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  email: { type: String },
-  address: { type: String, required: true },
+  email: { type: String,required: true },
+  address: { type: String },
 
   image: { type: String },
-  description: { type: String, required: true },
+  description: { type: String},
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 
   address2: { type: String },

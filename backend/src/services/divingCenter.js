@@ -3,54 +3,66 @@ const divingCenterModel = require("../models/DivingCenter");
 
 class DivingCenterService {
   async getAllDivingCenters(req, res) {
-    const { search, city, sort } = req.query;
-    const queryObject = {};
-    if (city) {
-      queryObject.city = { $regex: city, $options: "i" };
-    }
-    let result = divingCenterModel.find(queryObject);
-    if (sort === "latest") {
-      result = result.sort("-createdAt");
-    }
-    if (sort === "oldest") {
-      result = result.sort("createdAt");
-    }
-    if (sort === "a-z") {
-      result = result.sort("name");
-    }
-    if (sort === "z-a") {
-      result = result.sort("-name");
-    }
+    try {
+      const { search, city, sort } = req.query;
+      const queryObject = {};
 
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+      if (city) {
+        queryObject.city = { $regex: city, $options: "i" };
+      }
 
-    result = result.skip(skip).limit(limit);
+      let result = divingCenterModel.find(queryObject);
 
-    const divingCenters = await result;
+      // Sorting logic
+      if (sort === "latest") {
+        result = result.sort("-createdAt");
+      } else if (sort === "oldest") {
+        result = result.sort("createdAt");
+      } else if (sort === "a-z") {
+        result = result.sort("name");
+      } else if (sort === "z-a") {
+        result = result.sort("-name");
+      }
 
-    const totalDivingCenters = await divingCenterModel.countDocuments(
-      queryObject
-    );
-    const numOfPages = Math.ceil(totalDivingCenters / limit);
+      // Pagination logic
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 10;
+      const skip = (page - 1) * limit;
 
-    res.status(200).json({ divingCenters, totalDivingCenters, numOfPages });
+      result = result.skip(skip).limit(limit);
+
+      const divingCenters = await result;
+      const totalDivingCenters = await divingCenterModel.countDocuments(queryObject);
+      const numOfPages = Math.ceil(totalDivingCenters / limit);
+
+      res.status(200).json({ divingCenters, totalDivingCenters, numOfPages });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   }
+
   async getDivingCenterById(id) {
-    const divingCenter = await divingCenterModel.findById(id);
-    return divingCenter;
-  }
-  async getDivingCenterById(id) {
-    const divingCenter = await divingCenterModel.findById(id);
-    return divingCenter;
+    try {
+      const divingCenter = await divingCenterModel.findById(id);
+      if (!divingCenter) {
+        throw new Error("Diving center not found");
+      }
+      return divingCenter;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async createDivingCenter(newDivingCenterData) {
-    const newDivingCenter = new divingCenterModel(newDivingCenterData);
-    await newDivingCenter.save();
-    return newDivingCenter;
+    try {
+      const newDivingCenter = new divingCenterModel(newDivingCenterData);
+      await newDivingCenter.save();
+      return newDivingCenter;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
+
   async getAllCentersCities(req, res) {
     try {
       const centers = await divingCenterModel.aggregate([
@@ -75,67 +87,86 @@ class DivingCenterService {
   }
 
   async updateDivingCenter(center, id, oldImage) {
-    let image = null;
-    if (center.image) {
-      image = await uploadImage(center.image);
+    try {
+      let image = null;
+      if (center.image) {
+        image = await uploadImage(center.image);
+      }
+      if (oldImage) {
+        await deleteImage(oldImage);
+      }
+      const updatedDivingCenter = await divingCenterModel.findByIdAndUpdate(
+        id,
+        { ...center, image },
+        { new: true }
+      );
+      return updatedDivingCenter;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    if (oldImage) {
-      await deleteImage(oldImage);
-    }
-    const updatedDivingCenter = await divingCenterModel.findByIdAndUpdate(
-      id,
-      { ...center, image },
-      { new: true }
-    );
-    return updatedDivingCenter;
   }
-  async getAllDivingCentersOfUser(req, res, userId) {
-    if (!req && !res) {
-      const divingCenters = await divingCenterModel.find({ user: userId });
-      return divingCenters;
-    }
-    const { search, city, sort } = req.query;
-    const queryObject = { user: req.body.user.userId };
-    if (city) {
-      queryObject.city = { $regex: city, $options: "i" };
-    }
-    let result = divingCenterModel.find(queryObject);
-    if (sort === "latest") {
-      result = result.sort("-createdAt");
-    }
-    if (sort === "oldest") {
-      result = result.sort("createdAt");
-    }
-    if (sort === "a-z") {
-      result = result.sort("name");
-    }
-    if (sort === "z-a") {
-      result = result.sort("-name");
-    }
 
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+  async getAllDivingCentersOfUser(req, res) {
+    try {
+      const { search, city, sort } = req.query;
+      const queryObject = { user: req.body.user.userId };
 
-    result = result.skip(skip).limit(limit);
+      if (city) {
+        queryObject.city = { $regex: city, $options: "i" };
+      }
 
-    const divingCenters = await result;
+      let result = divingCenterModel.find(queryObject);
 
-    const totalDivingCenters = await divingCenterModel.countDocuments(
-      queryObject
-    );
-    const numOfPages = Math.ceil(totalDivingCenters / limit);
+      // Sorting logic
+      if (sort === "latest") {
+        result = result.sort("-createdAt");
+      } else if (sort === "oldest") {
+        result = result.sort("createdAt");
+      } else if (sort === "a-z") {
+        result = result.sort("name");
+      } else if (sort === "z-a") {
+        result = result.sort("-name");
+      }
 
-    res.status(200).json({ divingCenters, totalDivingCenters, numOfPages });
+      // Pagination logic
+      const page = Number(req.query.page) || 1;
+      const limit = Number(req.query.limit) || 10;
+      const skip = (page - 1) * limit;
+
+      result = result.skip(skip).limit(limit);
+
+      const divingCenters = await result;
+      const totalDivingCenters = await divingCenterModel.countDocuments(queryObject);
+      const numOfPages = Math.ceil(totalDivingCenters / limit);
+
+      res.status(200).json({ divingCenters, totalDivingCenters, numOfPages });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async findDivingCenterByEmail(email) {
+    try {
+      const divingCenter = await divingCenterModel.findOne({ email });
+      return divingCenter; // Will return the diving center if found or null if not found
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async deleteDivingCenter(id, image) {
-    if (image) {
-      await deleteImage(image);
+    try {
+      if (image) {
+        await deleteImage(image);
+      }
+      const deletedDivingCenter = await divingCenterModel.findByIdAndDelete(id);
+      if (!deletedDivingCenter) {
+        throw new Error("Diving center not found");
+      }
+      return deletedDivingCenter;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    const deletedDivingCenter = await divingCenterModel.findByIdAndDelete(id);
-    // const deletedDivingCenter = await divingCenterModel.deleteMany();
-    return deletedDivingCenter;
   }
 }
 
