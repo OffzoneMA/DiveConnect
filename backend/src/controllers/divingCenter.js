@@ -68,19 +68,30 @@ exports.submitDivingCenter = async (req, res) => {
   try {
     // Extract email from request body
     const { email } = req.body;
-
+    console.log("email")
     // Check if a diving center with the provided email already exists
     const existingCenter = await divingCenterService.findDivingCenterByEmail(email);
-
+    console.log("if exist")
     if (existingCenter) {
       // If email exists, respond with a conflict status and error message
-      return res.status(409).json({ message: "Email already exists. Diving center not created." });
+      console.log("exist true")
+      //console.log(req.body)
+      if (!req.body.user) {
+        req.body.country=existingCenter.country;
+        req.body.city=existingCenter.country;
+        console.log(req.body)
+        const updatedCenter = await divingCenterService.updateDivingCenter(req.body, existingCenter._id);
+        return res.status(201).json({ message: "Diving center updated successfully", center: updatedCenter.name });
+
+      }else{
+        return res.status(409).json({ message: "User already controle this center." });
+      }c
     }
 
     // If email doesn't exist, proceed with creating the diving center
     const newDivingCenter = await divingCenterService.createDivingCenter(req.body);
     console.log( "Diving center created successfully : ",newDivingCenter )
-    res.status(201).json({ message: "Diving center created successfully", center: newDivingCenter });
+    res.status(201).json({ message: "Diving center created successfully", center: newDivingCenter.name });
   } catch (error) {
     console.log(error)
     // Handle any errors

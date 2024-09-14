@@ -86,20 +86,23 @@ class DivingCenterService {
     }
   }
 
-  async updateDivingCenter(center, id, oldImage) {
+  async updateDivingCenter(center, id) {
     try {
-      let image = null;
-      if (center.image) {
-        image = await uploadImage(center.image);
+      // Ensure the agencies and languages are valid
+      if (center.agencies) {
+        center.agencies = center.agencies.map((agency) => agency.toLowerCase());
       }
-      if (oldImage) {
-        await deleteImage(oldImage);
+      if (center.languages) {
+        center.languages = center.languages.map((language) => language.toLowerCase());
       }
+  
+      // Update the diving center details
       const updatedDivingCenter = await divingCenterModel.findByIdAndUpdate(
         id,
-        { ...center, image },
-        { new: true }
+        { ...center },
+        { new: true, runValidators: true }
       );
+  
       return updatedDivingCenter;
     } catch (error) {
       throw new Error(error.message);

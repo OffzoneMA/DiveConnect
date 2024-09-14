@@ -1,8 +1,22 @@
 const mongoose = require("mongoose");
 
 // Define allowed agencies and languages
-const allowedAgencies = ["padi", "cmas", "ssi", "naui", "bsac"];
-const allowedLanguages = ["english", "french", "spanish", "german", "italian"];
+const allowedAgencies = [
+  "padi", "cmas", "ssi", "naui", "bsac", "sdii", "iadrs", "gue",
+  "nasi", "aida", "pdic", "cedip", "raid", "and", "idt", "isa",
+  "dive master", "iatd", "tdisdi", "scuba schools international",
+  "global underwater explorers", "national association of underwater instructors",
+  "international diving research and exploration organization",
+  "fédération française d'études et de sports sous-marins"];
+const allowedLanguages = [
+  "english", "french", "spanish", "german", "italian", "portuguese",
+  "russian", "chinese", "japanese", "korean", "arabic", "hindi",
+  "bengali", "urdu", "indonesian", "malay", "thai", "vietnamese",
+  "dutch", "greek", "polish", "swedish", "norwegian", "finnish",
+  "turkish", "hebrew", "hungarian", "czech", "slovak", "romanian",
+  "bulgarian", "serbian", "croatian", "bosnian", "albanian", "georgian",
+  "armenian", "azerbaijani", "farsi", "pashto", "tagalog", "filipino"
+];
 
 const divingCenterSchema = new mongoose.Schema({
   name: { type: String, required: true },
