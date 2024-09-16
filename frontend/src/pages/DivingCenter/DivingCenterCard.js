@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link
 import Ratting from "../../components/common/Ratting";
 import Star from "../../components/common/Star";
 
@@ -8,22 +9,6 @@ function DivingCenterCard({
   selectedCenters,
   randomImg: image,
 }) {
-  // return (
-  //   <div>
-  //     <h1>Diver Images</h1>
-  //     <div style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
-  //       {images.map((image) => (
-  //         <img
-  //           key={image.id}
-  //           src={image.src.medium}
-  //           alt={image.alt}
-  //           style={{ width: "200px" }}
-  //         />
-  //       ))}
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="flex bg-white m-3 sm:m-4">
       {center.image ? (
@@ -46,13 +31,13 @@ function DivingCenterCard({
             {center.name}
           </p>
           <p className="hidden sm:block text-gray-700 text-base  leading-[1.6rem]">
-            from $ <span className="text-2xl leading-8">339</span>
-            /day
+            from $ <span className="text-2xl leading-8">60</span>
+            /Dive
           </p>
         </div>
         <div className="flex gap-2 mb-3">
-          <Ratting></Ratting>
-          <Star></Star>
+          <Ratting />
+          <Star />
           <p className="text-sm sm:hidden">9.3</p>
           <p className="text-[#6B7280] text-sm">181 reviews</p>
         </div>
@@ -85,14 +70,20 @@ function DivingCenterCard({
               src="/image/checkmarkWhite.svg"
               className="w-[20px] h-[20px]"
               alt=""
-              srcset=""
             />
           </button>
           <p className="sm:hidden text-gray-700 sm:text-base text-sm sm:leading-[1.6rem]">
-            from $ <span className="sm:text-2xl text-sm sm:leading-8">339</span>
+            from $ <span className="sm:text-2xl text-sm sm:leading-8">60</span>
             / day
           </p>
         </div>
+        {/* Add "See Details" link here */}
+        <Link 
+          to={`/diving-center/details/${center._id}`} 
+          className="text-blue-500 mt-2 hover:underline text-sm sm:text-base"
+        >
+          See Details
+        </Link>
       </div>
     </div>
   );
